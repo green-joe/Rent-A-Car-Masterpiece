@@ -1,0 +1,13 @@
+spring:
+  profiles: dev
+  dataSource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/carrental
+    username: postgres
+    password: itsolutions
+    platform: postgres
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
