@@ -40,4 +40,4 @@ build/
 !**/src/test/**/build/
 **/*.log
 bin/
-gradle/
+gradle
