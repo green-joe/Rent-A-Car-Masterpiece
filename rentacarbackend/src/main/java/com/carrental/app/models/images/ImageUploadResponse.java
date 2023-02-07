@@ -9,4 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ImageUploadResponse {
     private String message;
+    private ImageData imageData;
+    
 }

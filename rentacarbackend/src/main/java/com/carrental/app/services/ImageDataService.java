@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageDataService {
@@ -24,12 +22,12 @@ public class ImageDataService {
 
     public ImageUploadResponse uploadImage(MultipartFile file) throws IOException {
 
-        imageDataRepository.save(ImageData.builder()
+        ImageData imageData=imageDataRepository.save(ImageData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .imageData(ImageUtil.compressImage(file.getBytes())).build());
 
-        return new ImageUploadResponse("Image uploaded successfully " + file.getOriginalFilename());
+        return new ImageUploadResponse("Image uploaded successfully " + file.getOriginalFilename(),imageData);
 
     }
 
@@ -49,5 +47,31 @@ public class ImageDataService {
         byte[] image = ImageUtil.decompressImage(dbImage.get().getImageData());
         return image;
     }
+    @Transactional
+    public List getAllImages()  {
+        List<ImageData> allImages;
+        allImages = imageDataRepository.findAll();
+        List<ImageData> resultImages=new ArrayList<>();
+        for(int i=0;i<allImages.size();i++){
+             resultImages.add(ImageData.builder()
+                    .id(allImages.get(i).getId())
+                    .name(allImages.get(i).getName())
+                    .type(allImages.get(i).getType())
+                    .imageData(ImageUtil.decompressImage(allImages.get(i).getImageData())).build());
+        }
+        return resultImages;
+    }
+
+    public List<String> getImageDataName(){
+        List<String> allImageDataName=new ArrayList<>();
+        List<ImageData> allImages=getAllImages();
+        /*for(ImageData items:allImages){
+            allImageDataName.add(items.getName());
+        }*/
+        allImageDataName=allImages.stream().map(ImageData::getName).collect(Collectors.toList());
+        System.out.println(allImageDataName+"kk");
+        return allImageDataName;
+    }
+
 
 }
