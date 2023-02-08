@@ -1,8 +1,6 @@
 package com.carrental.app.controllers;
 
-import com.carrental.app.models.Car;
 import com.carrental.app.models.images.ImageData;
-import com.carrental.app.models.images.ImageUploadResponse;
 import com.carrental.app.repositories.CarRepository;
 import com.carrental.app.repositories.ImageDataRepository;
 import com.carrental.app.services.ImageDataService;
@@ -14,19 +12,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,9 +23,15 @@ import java.util.List;
 @CrossOrigin
 public class ImageController {
     @Autowired
-    private ImageDataService imageDataService;
-    private ImageDataRepository imageDataRepository;
-    private CarRepository carRepository;
+    private final ImageDataService imageDataService;
+    private final ImageDataRepository imageDataRepository;
+    private final CarRepository carRepository;
+
+    public ImageController(ImageDataService imageDataService, ImageDataRepository imageDataRepository, CarRepository carRepository) {
+        this.imageDataService = imageDataService;
+        this.imageDataRepository = imageDataRepository;
+        this.carRepository = carRepository;
+    }
 
 
     @GetMapping("/info/{name}")
@@ -59,8 +54,16 @@ public class ImageController {
         return allImages;
     }
 
-    @DeleteMapping("/delete/{name}")
+    @DeleteMapping("/delete/name/{name}")
     public void deleteByName(@PathVariable("name")String name){
         imageDataRepository.deleteByName(name);
+    }
+    @DeleteMapping("/delete/id/{id}")
+    public void deleteById(@PathVariable("id")Long id){
+        imageDataRepository.deleteById(id);
+    }
+    @GetMapping("get/{id}")
+    public ImageData getImageById(@PathVariable("id")Long id){
+        return imageDataRepository.findById(id).orElseThrow();
     }
 }
