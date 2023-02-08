@@ -53,7 +53,7 @@ const CarItem = (props) => {
           <Col lg="4" md="4" sm="6" className="mb-5">
             <div className="car__item">
               <div className="car__img">
-                <img key={index} src={item.imageData} alt="asasa" className="w-100" />
+                <img key={index} src={item.imageData} alt={item.name} className="w-100" />
               </div>
 
               <div className="car__item-content mt-4">
