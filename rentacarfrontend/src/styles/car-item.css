@@ -1,7 +1,8 @@
-.car__item {     
+.car__item {    
   border: 1px solid #7c8a9736;
   padding: 20px;
   border-radius: 5px;  
+ 
 }
 
 .car__item-info span i {
@@ -15,6 +16,7 @@
   outline: none;
   background: #000d6b;
   padding: 8px 0px;
+  
 }
 
 .car__item-btn a {
@@ -91,7 +93,8 @@
   .car__item-btn {
     font-size: 0.8rem;
   }
-  .car__img{
-    object-fit: contain;
-  }
+  
+  
+  
+ 
 }
