@@ -14,11 +14,14 @@ class Images extends Component {
     componentDidMount() {           
         fetch(process.env.REACT_APP_BACKEND_URL + '/image/getAll')
         .then((res) => res.json())
-        .then((data) => { 
-            var base64Flag = 'data:image/jpg;base64,';           
+        .then((data) => {
+            let component=[] 
+            var base64Flag = 'data:image/jpg;base64,';
+            component.push(           
             this.setState({
-                img: base64Flag + data.imageData    
-            })
+
+               img: base64Flag + imageData    
+            }))
              
         })
     }
@@ -27,6 +30,7 @@ class Images extends Component {
        
         
         return (
+            
             <img
                 src={img}
                 alt=""/>
