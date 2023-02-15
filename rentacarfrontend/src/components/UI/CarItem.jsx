@@ -2,61 +2,31 @@ import React, { useState, useEffect, Component } from "react";
 import { Col, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import "../../styles/car-item.css";
-import { getAllCars } from "../../services/GetCarsData";
+import { getAllCars} from "../../services/GetCarsData";
 
 
 const CarItem = (props) => { 
   const [cars, setCars] = useState([]) 
-  let carsItems = []
-  let priceDescendin=[]
+  const selected=props.order   
+  let priceDescending=[]
   let priceAscending=[]
   
-    useEffect(() => {
-    
-      getAllCars().then(data => {
-        for (let i = 0; i < data.length; i++) {          
-          var base64Flag = "data:image/png;base64,"
-          let automatic,gps;            
-          if (data[i].automatic === true || data[i].gps===true) {
-            automatic = 'Automatic'
-            gps='GPS Navigation'
-          } else {
-            automatic = 'Non Automatic',
-            gps='Non GPS Navigation'
-          }
-          const car =
-          {
-            imageData: base64Flag + data[i].carImages[0].imageData,
-            name: data[i].name,
-            price: data[i].pricePerDay,
-            model: data[i].model,
-            automatic: automatic,
-            gps:data[i].gps
-          }
-          carsItems.push(car) 
-                      
-        }      
-       
-      if(props.order==""){ 
-        setCars(carsItems)      
-      }
-      
-      if(props.order=="low"){       
-      priceDescendin=[...carsItems].sort((a,b)=>a.price-b.price) 
-      setCars(priceDescendin)      
-      }
-     
-      if(props.order=="high"){
-        priceAscending=[...carsItems].sort((a,b)=>b.price-a.price) 
-        setCars(priceAscending)
-      }
-      
-      if(props.order=="Select"){
-        setCars(carsItems)
-      }       
+    useEffect(() => {  
+      getAllCars().then(data=>{      
+       if(selected==""){ 
+        setCars(data)      
+       }else if(selected=="low"){       
+       priceDescending=[...data].sort((a,b)=>a.price-b.price) 
+       setCars(priceDescending)      
+       }else if(selected=="high"){
+         priceAscending=[...data].sort((a,b)=>b.price-a.price) 
+         setCars(priceAscending)
+       }else if(selected=="Select"){
+         setCars(data)
+       }       
         
        })
-  },[cars])
+  },[selected])
    
   
   return (   
@@ -103,6 +73,7 @@ const CarItem = (props) => {
      
   );
 };
+
 
 export default CarItem;
 

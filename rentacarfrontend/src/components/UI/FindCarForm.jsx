@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import "../../styles/find-car-form.css";
 import { Form, FormGroup } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 
 const FindCarForm = () => {
   const navigate = useNavigate();
-
+  const [fromValue, setFromValue]=useState([])
+  useEffect(()=>{
+   localStorage.setItem('fromValue',JSON.stringify(fromValue))
+  },[fromValue])
   return (
     <Form className="form">
       <div className=" d-flex align-items-center justify-content-between flex-wrap">
         <FormGroup className="form__group">
-          <input type="text" placeholder="From address" required />
+          <input type="text" placeholder="From address" required
+           onChange={(event)=>setFromValue(event.target.value)}
+           value={fromValue} />
         </FormGroup>
 
         <FormGroup className="form__group">

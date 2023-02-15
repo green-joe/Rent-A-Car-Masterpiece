@@ -27,12 +27,9 @@ class Image extends Component {
                 var base64Flag = "data:image/png;base64,"               
                     this.setState({
                         img: base64Flag+data.imageData                                           
-                    })     
-                    
-                  
+                    })                  
                 
-            })          
-             
+            })       
          
 }
 render() {

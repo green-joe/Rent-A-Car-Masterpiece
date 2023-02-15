@@ -8,7 +8,7 @@ const serviceData = [
   
     {
       id: 2,
-      title: "Whole  City Tour",
+      title: "Whole City Tour",
       icon: "ri-community-line",
       desc: "Tempor tempor sadipscing vero lorem sea, invidunt sed et eos ipsum et erat. Dolor ut duo sadipscing lorem. Gubergren gub",
     },
