@@ -3,8 +3,8 @@ import React from "react";
 import Slider from "react-slick";
 import { Container } from "reactstrap";
 import { Link } from "react-router-dom";
-
 import "../../styles/hero-slider.css";
+import Image from '../../services/Image'
 
 const HeroSlider = () => {
   const settings = {
@@ -17,6 +17,8 @@ const HeroSlider = () => {
     slidesToScroll: 1,
     pauseOnHover: false,
   };
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState('');
+  
   return (
     <Slider {...settings} className="hero__slider">
       <div className="slider__item slider__item-01 mt0">
