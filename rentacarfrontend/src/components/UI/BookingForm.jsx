@@ -1,17 +1,25 @@
-import React from 'react'
-import {Form,FormGroup} from 'reactstrap'
+import React, { useState, useEffect } from 'react'
+import { Form, FormGroup } from 'reactstrap'
 import "../../styles/booking-form.css";
 
+
 const BookingForm = () => {
-    const submitHandler=(event)=>{
-        event.preventDafault();
-    };
+
+  const submitHandler = (event) => {
+    event.preventDafault();
+
+  };
+
+
+  const storedData = localStorage.getItem('rentInfo');
+  const rentInfo = JSON.parse(storedData)
+
   return (
     <Form onSubmit={submitHandler}>
-        <FormGroup className='booking__form d-inline-block me-4 mb-4'>
-            <input type="text" placeholder='First name'/>
-        </FormGroup>
-        <FormGroup className="booking__form d-inline-block ms-1 mb-4">
+      <FormGroup className='booking__form d-inline-block me-4 mb-4'>
+        <input type="text" placeholder='First name' />
+      </FormGroup>
+      <FormGroup className="booking__form d-inline-block ms-1 mb-4">
         <input type="text" placeholder="Last Name" />
       </FormGroup>
 
@@ -22,10 +30,10 @@ const BookingForm = () => {
         <input type="number" placeholder="Phone Number" />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="text" placeholder="From Address" />
+        <input type="text" placeholder="From Address" value={rentInfo.fromAddress} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="text" placeholder="To Address" />
+        <input type="text" placeholder="To Address" value={rentInfo.toAddress} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
         <select name="" id="">
@@ -46,13 +54,14 @@ const BookingForm = () => {
         </select>
       </FormGroup>
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="date" placeholder="Journey Date" />
+        <input type="date" placeholder="Journey Date" value={rentInfo.fromDate} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
         <input
           type="time"
           placeholder="Journey Time"
           className="time__picker"
+          value={rentInfo.fromTime}
         />
       </FormGroup>
 
@@ -64,7 +73,7 @@ const BookingForm = () => {
           placeholder="Write"
         ></textarea>
       </FormGroup>
-    
+
     </Form>
   )
 }

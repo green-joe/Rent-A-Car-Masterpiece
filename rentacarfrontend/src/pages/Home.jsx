@@ -60,7 +60,7 @@ const Home = () => {
             </Col>
 
             {/* {carData.slice(0, 6).map((item) => ( */}
-              <CarItem />            
+              <CarItem order={''} />            
             {/* ))} */}
           </Row>
         </Container>

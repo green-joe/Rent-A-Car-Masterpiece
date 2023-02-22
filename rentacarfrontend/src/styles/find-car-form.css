@@ -6,6 +6,8 @@
     background-size: cover;
     padding: 45px 35px;
     margin-top: 1%;
+    margin-right: 1%;
+    margin-left: 1%;
   }
   
   .find__cars-left h2 {
@@ -14,14 +16,14 @@
   }
   
   .form__group {
-    width: 30%;
+    width: 33%;
     margin-bottom: 0;
   }
   
   .form__group input {
-    border: 1px solid #7c8a972a;
-    padding: 8px 12px;
-  
+    border: 2px solid #1925302a;
+    border-radius: 10px;
+    padding: 8px 8px;  
     width: 100%;
     outline: none;
   }
@@ -30,8 +32,9 @@
   }
   
   .form {    
-    background: #fff;    
-    padding-bottom: 50px;
+    background: #fff; 
+    padding-top:15px;   
+    padding-bottom: 20px;
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -90,9 +93,9 @@
       font-size: 1.5rem;
     }
   
-    .form {
+    /* .form {
       padding: 30px 10px;
-    }
+    } */
   
     .form__group input,
     .select__group select {

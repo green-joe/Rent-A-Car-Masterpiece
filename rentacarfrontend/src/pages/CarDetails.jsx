@@ -12,31 +12,17 @@ const CarDetails = () => {
   const [cars, setCars] = useState()
   const [singleCarItem, setSingleCarItem] = useState({})
   let oneCar = {}
-
-  //const [singleCarItem, setSingleCarItem]=useState([]);
-
-
   useEffect(() => {
-
-    let array = []
+    let listOfCars = []
     getAllCars().then(data => {
-      array = [...data]
-
-      for (let i = 0; i < array.length; i++) {
-
-        if (array[i].name === slug)
-          oneCar = array[i]
+      listOfCars = [...data]
+      for (let i = 0; i < listOfCars.length; i++) {
+        if (listOfCars[i].name === slug)
+          oneCar = listOfCars[i]
         console.log(oneCar)
         setSingleCarItem(oneCar)
       }
     })
-
-    console.log(singleCarItem.name)
-    // const oneCar = array.find((item) => item.name === slug)
-    // console.log(oneCar)
-    // setShwoCar(oneCar)
-    // console.log(showCar)
-   // window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -54,7 +40,7 @@ const CarDetails = () => {
 
                 <div className=" d-flex align-items-center gap-5 mb-4 mt-3">
                   <h6 className="rent__price fw-bold fs-4">
-                    ${ singleCarItem.price}.00 / Day
+                    ${singleCarItem.price}.00 / Day
                   </h6>
 
                   {/* <span className=" d-flex align-items-center gap-2">
@@ -70,7 +56,7 @@ const CarDetails = () => {
                 </div>
 
                 <p className="section__description">
-                  {singleCarItem.description }
+                  {singleCarItem.description}
                 </p>
 
                 <div
