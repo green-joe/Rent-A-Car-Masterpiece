@@ -1,3 +1,4 @@
+.idea
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -33,12 +34,12 @@ build/
 .vscode/
 /out
 
-.gradle
-build/
+**/.gradle/
+**/build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 **/*.log
 bin/
-gradle
-gradlew
+gradle 
+build
