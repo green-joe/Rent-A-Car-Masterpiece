@@ -6,9 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "customers", uniqueConstraints = {
+       @UniqueConstraint(columnNames = {"email"})
+})
+//@Table(name = "customers")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor

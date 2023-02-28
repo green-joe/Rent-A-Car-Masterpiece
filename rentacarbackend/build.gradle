@@ -36,7 +36,8 @@ dependencies {
             [group: "org.projectlombok", name: "lombok", version: "$lombokVersion"],
             [group: "org.springframework.boot", name: "spring-boot-starter-web", version: "$springBootVersion"],
             [group: "org.springframework.boot", name: "spring-boot-starter-data-jpa", version: "$springBootVersion"],
-            [group: "org.springframework.boot", name: "spring-boot-starter-test"]
+            [group: "org.springframework.boot", name: "spring-boot-starter-test"],
+            [group: "org.springframework.boot", name: "spring-boot-starter-security"]
     )
 
     annotationProcessor group: "org.projectlombok", name: "lombok", version: "$lombokVersion"
@@ -46,8 +47,6 @@ dependencies {
             [group: "com.h2database", name: "h2"]
     )
 }
-
-
 
 
 test {
