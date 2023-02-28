@@ -13,7 +13,7 @@ const RegistrationPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      let res =await fetch("http://localhost:8080/customer/auth/registration", {
+      let res =await fetch("http://localhost:8080/customer/auth/register", {
         method: "POST",
         body: JSON.stringify({
           firsrName: firstName,
@@ -29,6 +29,7 @@ const RegistrationPage = () => {
         setEmail("");
         setPassword("");
         setMessage("Registration is succesful.")
+        console.log(setEmail)
       } else {
         setMessage("Some error occured");
       }
