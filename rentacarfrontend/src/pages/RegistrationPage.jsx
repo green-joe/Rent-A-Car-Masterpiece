@@ -8,10 +8,33 @@ const RegistrationPage = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName]=useState('')
   const [lastName, setLastName]=useState('')
+  const [message, setMessage]=useState('')
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Do something with email and password, such as login with a server API
+    try {
+      let res =await fetch("http://localhost:8080/customer/auth/registration", {
+        method: "POST",
+        body: JSON.stringify({
+          firsrName: firstName,
+          lastName:lastName,
+          email: email,
+          password: password,
+        }),
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+        setMessage("Registration is succesful.")
+      } else {
+        setMessage("Some error occured");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
