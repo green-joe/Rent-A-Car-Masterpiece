@@ -15,6 +15,9 @@ const RegistrationPage = () => {
     try {
       let res =await fetch("http://localhost:8080/customer/auth/register", {
         method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           firsrName: firstName,
           lastName:lastName,
@@ -28,13 +31,13 @@ const RegistrationPage = () => {
         setLastName("");
         setEmail("");
         setPassword("");
-        setMessage("Registration is succesful.")
+       setMessage("Registration is succesful.")
         console.log(setEmail)
       } else {
         setMessage("Some error occured");
       }
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -56,6 +59,7 @@ const RegistrationPage = () => {
                         type="text"
                         value={firstName}
                         placeholder="First name"
+                        required="required" pattern="[A-Za-z0-9]{1,20}" autocomplete="off" 
                         onChange={(event) => setFirstName(event.target.value)}
                       />
                     </FormGroup>
@@ -63,8 +67,9 @@ const RegistrationPage = () => {
                       <FormLabel>Last name:</FormLabel>
                       <FormControl
                         type="Last name"
-                        placeholder=""
+                        placeholder="Last name"
                         value={lastName}
+                        required="required" pattern="[A-Za-z0-9]{1,20}" autocomplete="off" 
                         onChange={(event) => setLastName(event.target.value)}
                       />
                       </FormGroup>
@@ -75,6 +80,7 @@ const RegistrationPage = () => {
                         type="email"
                         value={email}
                         placeholder="Enter email"
+                        required="required" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" autocomplete="on" 
                         onChange={(event) => setEmail(event.target.value)}
                       />
                     </FormGroup>
@@ -84,6 +90,7 @@ const RegistrationPage = () => {
                         type="password"
                         placeholder="Password"
                         value={password}
+                        required="required" pattern="[A-Za-z0-9]{1,20}" autocomplete="off" 
                         onChange={(event) => setPassword(event.target.value)}
                       />
 
