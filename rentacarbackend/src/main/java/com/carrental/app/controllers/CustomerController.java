@@ -36,29 +36,25 @@ public class CustomerController {
 
     @PostMapping("/auth/register")
     public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
-
         // add check for customerrname exists in a DB
         if (customerRepository.existsByFirstNameAndLastName(customer.getFirstName(), customer.getLastName())) {
             return new ResponseEntity<>("Customername is already taken!", HttpStatus.BAD_REQUEST);
         }
-
         // add check for email exists in DB
         if (customerRepository.existsByEmail(customer.getEmail())) {
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
-
+        try {
+            customerService.isValidPassword(customer.getPassword());
+        }catch (InvalidPasswordException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         // create customer object
         Customer newCustomer = new Customer();
         newCustomer.setFirstName(customer.getFirstName());
         newCustomer.setLastName(customer.getLastName());
         newCustomer.setEmail(customer.getEmail());
-        try {
-            if (customerService.isValidPassword(customer.getPassword())) {
-                newCustomer.setPassword(passwordEncoder.encode(customer.getPassword()));
-            }
-        } catch (InvalidPasswordException e) {
-            throw new InvalidPasswordException(e.getMessage());
-        }
+        newCustomer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.save(newCustomer);
         return new ResponseEntity<>("Customer registered successfully", HttpStatus.OK);
 
