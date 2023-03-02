@@ -48,11 +48,15 @@ const RegistrationPage = () => {
       setPopupMessage('success')
     } else {
       setPopupMessage('error')
-      console.log(resJson)
+      res.text().then(errorMessage => {
+        throw new Error(errorMessage);
+      }).catch(error => { console.error('An error:', error.message) });
+
     }
 
 
   };
+
 
   return (
 
