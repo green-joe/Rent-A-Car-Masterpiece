@@ -1,5 +1,6 @@
 package com.carrental.app.controllers;
 
+import com.carrental.app.CustomerExceptions.InvalidPasswordException;
 import com.carrental.app.models.Customer;
 import com.carrental.app.repositories.CustomerRepository;
 import com.carrental.app.services.CustomerService;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/customer")
@@ -53,10 +52,15 @@ public class CustomerController {
         newCustomer.setFirstName(customer.getFirstName());
         newCustomer.setLastName(customer.getLastName());
         newCustomer.setEmail(customer.getEmail());
-        customerService.isValidPassword(customer.getPassword());
-        newCustomer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        try {
+            if (customerService.isValidPassword(customer.getPassword())) {
+                newCustomer.setPassword(passwordEncoder.encode(customer.getPassword()));
+            }
+        } catch (InvalidPasswordException e) {
+            throw new InvalidPasswordException(e.getMessage());
+        }
         customerRepository.save(newCustomer);
-        return new ResponseEntity<>("customer registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Customer registered successfully", HttpStatus.OK);
 
     }
 
