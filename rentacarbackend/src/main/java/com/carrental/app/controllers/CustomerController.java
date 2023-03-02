@@ -2,6 +2,7 @@ package com.carrental.app.controllers;
 
 import com.carrental.app.models.Customer;
 import com.carrental.app.repositories.CustomerRepository;
+import com.carrental.app.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/customer")
 @CrossOrigin
@@ -29,6 +32,8 @@ public class CustomerController {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final AuthenticationManager authenticationManager;
+    @Autowired
+    private final CustomerService customerService;
 
     @PostMapping("/auth/register")
     public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
@@ -48,6 +53,7 @@ public class CustomerController {
         newCustomer.setFirstName(customer.getFirstName());
         newCustomer.setLastName(customer.getLastName());
         newCustomer.setEmail(customer.getEmail());
+        customerService.isValidPassword(customer.getPassword());
         newCustomer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.save(newCustomer);
         return new ResponseEntity<>("customer registered successfully", HttpStatus.OK);
