@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from "react-bootstrap/Form";
 import { Col, FormGroup, Row, Card, Button, FormControl } from 'react-bootstrap';
 import FormLabel from 'react-bootstrap/esm/FormLabel';
 import Popup from '../services/Popup'
 import '../styles/popup.css'
+import '../styles/registration-page.css'
+import hidePwdImg from '../assets/all-images/hide-password.svg'
+import showPwdImg from '../assets/all-images/show-password.svg'
 
 
 
 const RegistrationPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
+  const [popupErrorMessage, setPopupErrorMessage] = useState('')
+  const [isRevealPwd, setIsRevealPwd] = useState(false);
+  const [isRevealConfPwd, setIsRevealConfPwd] = useState(false);
+
+  const validatePassword = () => {
+    if ((password === confirmPassword) && (password !== '' && confirmPassword !== '')) {
+      setPopupMessage('success')    
+    }
+    if (password === '' && confirmPassword === '') {
+      setPopupMessage('error')
+      setPopupErrorMessage("Input fields cannot be empty!")
+    }
+    else {
+      setPopupMessage('error');
+      setPopupErrorMessage('Passwords do not match!')      
+    }
+  };
 
   const handlePopup = (message) => {
     setPopupMessage(message);
@@ -26,7 +47,7 @@ const RegistrationPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    validatePassword()
     let res = await fetch("http://localhost:8080/customer/auth/register", {
       method: "POST",
       headers: {
@@ -39,23 +60,28 @@ const RegistrationPage = () => {
         password: password,
       }),
     });
+
     let resJson = res;
     if (res.status === 200) {
       setFirstName("");
       setLastName("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("")
       setPopupMessage('success')
     } else {
       setPopupMessage('error')
       res.text().then(errorMessage => {
-        throw new Error(errorMessage);
-      }).catch(error => { console.error('An error:', error.message) });
-
+        console.log(errorMessage)
+        setPopupErrorMessage(errorMessage)
+      })
     }
 
 
   };
+  useEffect(() => {
+    validatePassword();
+  }, [popupMessage]);
 
 
   return (
@@ -103,22 +129,41 @@ const RegistrationPage = () => {
                     </FormGroup>
                     <FormGroup controlId='password' className="mb-3">
                       <FormLabel>Password:</FormLabel>
-                      <FormControl
-                        type="password"
+                      <FormControl 
+                        type={isRevealPwd ? "text" : "password"}
                         placeholder="Password"
                         value={password}
-                        required="required" pattern="[A-Za-z0-9]{1,20}" autocomplete="off"
+                        required="required" autocomplete="off"
                         onChange={(event) => setPassword(event.target.value)}
                       />
-
+                      <img
+                        title={isRevealPwd ? "Hide password" : "Show password"}
+                        src={isRevealPwd ? hidePwdImg : showPwdImg}
+                        onClick={() => setIsRevealPwd(prevState => !prevState)}
+                      />
+                    </FormGroup>
+                    <FormGroup controlId='confirmPassword' className="mb-3">
+                      <FormLabel>Confirm password:</FormLabel>
+                      <FormControl
+                        type={isRevealConfPwd ? "text" : "password"}
+                        placeholder="Confirm password"
+                        value={confirmPassword}
+                        required="required" autocomplete="off"
+                        onChange={(event) => setConfirmPassword(event.target.value)}
+                      />
+                       <img
+                        title={isRevealConfPwd ? "Hide password" : "Show password"}
+                        src={isRevealConfPwd ? hidePwdImg : showPwdImg}
+                        onClick={() => setIsRevealConfPwd(prevState => !prevState)}
+                      />
                     </FormGroup>
                     <div className="d-grid">
                       <Button variant="primary" type="submit" onClick={handlePopup}>Register</Button>
                       {popupMessage === 'success' && (
-                        showPopup && <Popup message='The registartion is successful!' onClose={handleClosePopup} />
+                        showPopup && <Popup message='The registartion is successfull!' onClose={handleClosePopup} />
                       )}
                       {popupMessage === 'error' && (
-                        showPopup && <Popup message='The registartion is not successful!' onClose={handleClosePopup} />
+                        showPopup && <Popup message={popupErrorMessage} onClose={handleClosePopup} />
                       )}
                     </div>
                   </Form>
