@@ -3,6 +3,8 @@ import Form from "react-bootstrap/Form";
 import { Col, Container, FormGroup, Row, Card, Button, FormControl } from 'react-bootstrap';
 import FormLabel from 'react-bootstrap/esm/FormLabel';
 import "./../styles/login-page.css"
+import hidePwdImg from '../assets/all-images/hide-password.svg'
+import showPwdImg from '../assets/all-images/show-password.svg'
 
 
 
@@ -10,9 +12,34 @@ import "./../styles/login-page.css"
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isRevealPwd, setIsRevealPwd] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    let res = await fetch("http://localhost:8080/customer/auth/login", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+      body: JSON.stringify({        
+        
+        email: email,
+        password: password,                        
+      }),
+      
+    });
+      
+    if (res.status === 200) {     
+      setEmail("");
+      setPassword("");      
+      setPopupMessage('success')
+    } else {
+      setPopupMessage('error')
+      res.text().then(errorMessage => {
+        console.log(errorMessage)
+        setPopupErrorMessage(errorMessage)
+      })
     // Do something with email and password, such as login with a server API
   };
 
@@ -42,10 +69,16 @@ const LoginPage = () => {
                     <FormGroup controlId='password' className="mb-3">
                       <FormLabel>Password:</FormLabel>
                       <FormControl
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
+                       type={isRevealPwd ? "text" : "password"}
+                       required="required" autocomplete="off"
+                       placeholder="Password"
+                       value={password}
+                       onChange={(event) => setPassword(event.target.value)}
+                      />
+                       <img
+                        title={isRevealPwd ? "Hide password" : "Show password"}
+                        src={isRevealPwd ? hidePwdImg : showPwdImg}
+                        onClick={() => setIsRevealPwd(prevState => !prevState)}
                       />
 
                     </FormGroup>
@@ -62,8 +95,8 @@ const LoginPage = () => {
                   </Form>
                   <div className="mt-3">
                     <p className="mb-0 text-center">
-                      Don't have an acconunt?{""}
-                      <a href="{''}" className="text.primary fw-bold">
+                      Don't have an account?{""}
+                      <a href="/registration" className="text.primary fw-bold">
                         Sign up
                       </a>
                     </p>
