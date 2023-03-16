@@ -61,10 +61,10 @@ public class CustomerController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody Customer customer) {
+    public ResponseEntity<String> authenticateUser(@RequestBody String email, String password) {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    customer.getEmail(), customer.getPassword()));
+                    email,password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
         } catch (AuthenticationException e) {
