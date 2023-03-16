@@ -16,8 +16,8 @@ const LoginPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let res = await fetch("http://localhost:8080/customer/auth/login", {
-      method: "GET",
+    let res = fetch("http://localhost:8080/customer/auth/login", {
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
@@ -29,19 +29,20 @@ const LoginPage = () => {
       }),
       
     });
-      
+      console.log(res)
     if (res.status === 200) {     
       setEmail("");
       setPassword("");      
-      setPopupMessage('success')
+     // setPopupMessage('success')
     } else {
-      setPopupMessage('error')
+     // setPopupMessage('error')
       res.text().then(errorMessage => {
         console.log(errorMessage)
-        setPopupErrorMessage(errorMessage)
+       // setPopupErrorMessage(errorMessage)
       })
     // Do something with email and password, such as login with a server API
   };
+}
 
   return (
     
