@@ -24,10 +24,10 @@ const RegistrationPage = () => {
 
   const validatePassword = () => {
     if ((password === confirmPassword) && (password !== '' && confirmPassword !== '')) {
-      setPopupMessage('success')    
-    }
-    if (password === '' && confirmPassword === '') {
-      setPopupMessage('error')
+      setPassword(password)
+     // setPopupMessage('success')    
+    
+    }else if(password==='' || confirmPassword===""){
       setPopupErrorMessage("Input fields cannot be empty!")
     }
     else {
@@ -44,26 +44,27 @@ const RegistrationPage = () => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
-
+  
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    validatePassword()
+    event.preventDefault();   
+     
     let res = await fetch("http://localhost:8080/customer/auth/register", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
+      
+      body: JSON.stringify({        
         firsrName: firstName,
         lastName: lastName,
         email: email,
-        password: password,
+        password: password,                        
       }),
+      
     });
-
-    let resJson = res;
+      
     if (res.status === 200) {
-      setFirstName("");
+      setFirstName("")      
       setLastName("");
       setEmail("");
       setPassword("");
@@ -79,8 +80,8 @@ const RegistrationPage = () => {
 
 
   };
-  useEffect(() => {
-    validatePassword();
+   useEffect(() => { 
+   validatePassword()   
   }, [popupMessage]);
 
 
@@ -102,17 +103,19 @@ const RegistrationPage = () => {
                         type="text"
                         value={firstName}
                         placeholder="First name"
-                        required="required" pattern="[A-Za-z0-9]{1,20}" autocomplete="off"
+                        required pattern="[/\p{Letter}/u0-9]{1,140}" autocomplete="on"
                         onChange={(event) => setFirstName(event.target.value)}
                       />
                     </FormGroup>
                     <FormGroup controlId='lastname' className="mb-3">
                       <FormLabel>Last name:</FormLabel>
                       <FormControl
-                        type="Last name"
+                        type="text"
                         placeholder="Last name"
                         value={lastName}
-                        required="required" pattern="[A-Za-z0-9]{1,20}" autocomplete="on"
+                        data-pattern-error="Please use only letters"
+                        required 
+                        pattern="[/\p{Letter}/u0-9]{1,10}" autocomplete="on"
                         onChange={(event) => setLastName(event.target.value)}
                       />
                     </FormGroup>
@@ -123,7 +126,7 @@ const RegistrationPage = () => {
                         type="email"
                         value={email}
                         placeholder="Enter email"
-                        required="required" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" autocomplete="on"
+                        required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" autocomplete="on"
                         onChange={(event) => setEmail(event.target.value)}
                       />
                     </FormGroup>
