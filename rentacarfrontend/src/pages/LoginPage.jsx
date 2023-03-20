@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Form from "react-bootstrap/Form";
-import { Col, Container, FormGroup, Row, Card, Button, FormControl } from 'react-bootstrap';
+import { Col, FormGroup, Row, Card, Button, FormControl } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import FormLabel from 'react-bootstrap/esm/FormLabel';
 import "./../styles/login-page.css"
 import hidePwdImg from '../assets/all-images/hide-password.svg'
 import showPwdImg from '../assets/all-images/show-password.svg'
+import Popup from '../services/Popup'
+import '../styles/popup.css'
 
 
 
@@ -13,46 +16,57 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRevealPwd, setIsRevealPwd] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [popupErrorMessage, setPopupErrorMessage] = useState('')
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handlePopup = (message) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    let res = fetch("http://localhost:8080/customer/auth/login", {
+    let res = await fetch("http://localhost:8080/customer/auth/login", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
-      
-      body: JSON.stringify({        
-        
+
+      body: JSON.stringify({
         email: email,
-        password: password,                        
+        password: password,
       }),
-      
+
     });
-      console.log(res)
-    if (res.status === 200) {     
+
+    if (res.status === 200) {
       setEmail("");
-      setPassword("");      
-     // setPopupMessage('success')
+      setPassword("");
+      navigate("/userprofile");
     } else {
-     // setPopupMessage('error')
+      setPopupMessage('error')
       res.text().then(errorMessage => {
-        console.log(errorMessage)
-       // setPopupErrorMessage(errorMessage)
+        setPopupErrorMessage(errorMessage)
       })
-    // Do something with email and password, such as login with a server API
-  };
-}
+      // Do something with email and password, such as login with a server API
+    };
+  }
 
   return (
-    
-      <Row className="p-4 d-flex justify-content-center align-items-center">
-        <Col md={8} lg={6} xs={12}>
-         
-          <Card className="shadow">
+
+    <Row className="p-4 d-flex justify-content-center align-items-center">
+      <Col md={8} lg={6} xs={12}>
+
+        <Card className="shadow">
           <div className="square border border-3 border-primary">
             <Card.Body>
-               
+
               <div className='mb-3 mt-md-4'>
                 <h1 className="fw-bold mb-2 text-center ">Login</h1>
                 <p className='mb-3 text-center'>Please enter your login and password!</p>
@@ -70,28 +84,31 @@ const LoginPage = () => {
                     <FormGroup controlId='password' className="mb-3">
                       <FormLabel>Password:</FormLabel>
                       <FormControl
-                       type={isRevealPwd ? "text" : "password"}
-                       required="required" autocomplete="off"
-                       placeholder="Password"
-                       value={password}
-                       onChange={(event) => setPassword(event.target.value)}
+                        type={isRevealPwd ? "text" : "password"}
+                        required="required" autocomplete="off"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
                       />
-                       <img
+                      <img
                         title={isRevealPwd ? "Hide password" : "Show password"}
                         src={isRevealPwd ? hidePwdImg : showPwdImg}
                         onClick={() => setIsRevealPwd(prevState => !prevState)}
                       />
 
                     </FormGroup>
-                    <FormGroup className="mb-3"controlId="checkBox">
+                    <FormGroup className="mb-3" controlId="checkBox">
                       <p clascName="small">
                         <a className="text-primary" href="#">
                           Forgot password?
                         </a>
-                      </p>                      
+                      </p>
                     </FormGroup>
                     <div className="d-grid">
-                    <Button variant="primary" type="submit">Login</Button>
+                      <Button variant="primary" type="submit" onClick={handlePopup}>Login</Button>
+                      {popupMessage === 'error' && (
+                        showPopup && <Popup message={popupErrorMessage} onClose={handleClosePopup} />
+                      )}
                     </div>
                   </Form>
                   <div className="mt-3">
@@ -102,14 +119,14 @@ const LoginPage = () => {
                       </a>
                     </p>
                   </div>
-                  </div>
                 </div>
-             
+              </div>
+
             </Card.Body> </div>
-          </Card>
-        </Col>
-      </Row>
-    
+        </Card>
+      </Col>
+    </Row>
+
 
 
   );

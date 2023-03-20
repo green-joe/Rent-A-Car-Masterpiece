@@ -65,7 +65,7 @@ const CarDetails = () => {
                 >
                   <span className=" d-flex align-items-center gap-1 section__description">
                     <i
-                      class="ri-roadster-line"
+                      className="ri-roadster-line"
                       style={{ color: "#f9a826" }}
                     ></i>{" "}
                     {singleCarItem.model}
