@@ -44,11 +44,13 @@ const LoginPage = () => {
       }),
 
     });
-
+ console.log(email)
     if (res.status === 200) {
       setEmail("");
-      setPassword("");
-      navigate("/userprofile");
+      setPassword(""); // Retrieve user data from response
+     
+      navigate("/userprofile"), {state:email}; 
+      
     } else {
       setPopupMessage('error')
       res.text().then(errorMessage => {
