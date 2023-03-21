@@ -2,6 +2,7 @@ package com.carrental.app.controllers;
 
 import com.carrental.app.CustomerExceptions.InvalidPasswordException;
 import com.carrental.app.models.Customer;
+import com.carrental.app.models.authresponse.AuthResponse;
 import com.carrental.app.repositories.CustomerRepository;
 import com.carrental.app.services.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -61,12 +62,13 @@ public class CustomerController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody Customer customer) {
+    public ResponseEntity<Object> authenticateUser(@RequestBody Customer customer) {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                   customer.getEmail(),customer.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
+            String message = "User signed-in successfully!";
+            return new ResponseEntity<>(new AuthResponse(message,customer), HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Authentication failed: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
         }

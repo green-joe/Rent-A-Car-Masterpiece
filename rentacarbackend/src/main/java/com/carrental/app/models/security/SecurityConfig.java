@@ -40,7 +40,18 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/image/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/customer/auth/**")).permitAll()
                                 .anyRequest().authenticated()
-                );
+                )
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
+        ;
         return http.build();
     }
 }
