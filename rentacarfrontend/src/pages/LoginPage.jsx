@@ -19,15 +19,7 @@ const LoginPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [popupErrorMessage, setPopupErrorMessage] = useState('')
-  const [customer, setCustomer] = useState({
-    id: '',
-    email: '',
-    firstName: '', lastName: '',
-    birthDate: '',
-    phoneNumber: '',
-    address: '',
-    password: ''
-  })
+ 
 
   const navigate = useNavigate();
 
@@ -59,14 +51,10 @@ const LoginPage = () => {
 
     if (res.status === 200) {
       // setEmail("");
-      //setPassword(""); // Retrieve user data from response
-
-      const response = await res.json();
-
+      //setPassword(""); // Retrieve user data from response       
+      console.log(email)
+      navigate("/userprofile",  {state: email} );
       
-      
-      navigate("/userprofile", { state: {...response.customer} });
-     
       // res.json().then(customer => {
       //  console.log(customer.customer)
       // })
