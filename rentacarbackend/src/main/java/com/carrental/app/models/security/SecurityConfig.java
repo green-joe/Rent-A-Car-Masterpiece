@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(new AntPathRequestMatcher("/car/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/image/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/customer/auth/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/customer/**/**")).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin()
