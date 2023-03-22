@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, CardBody } from 'reactstrap'
+import { Container, Row, Col, Card,Breadcrumb,BreadcrumbItem, Button, ProgressBar } from 'react-bootstrap'
+import { CardBody, CardImg, ListGroup,ListGroupItem, CardText,Progress} from 'reactstrap';
+import {Link} from 'react-router-dom'
 import Helmet from "../../components/Helmet/Helmet";
 import LoginPage from '../LoginPage';
 import Banner from './Banner';
 
 
-const UserProfilePage = ({email }) => {
+const UserProfilePage = (customer) => {
+console.log(customer)
   const [userProfile, setUserProfile] = useState({
-    
-    email: email,
+    name:customer.name,
+    email: customer.email,
     bio: '',
     location: ''
   });
-
+ console.log(userProfile);
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserProfile({ ...userProfile, [name]: value });
@@ -21,12 +24,189 @@ const UserProfilePage = ({email }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Here you can send the userProfile object to a backend or do something else with the data
-    console.log(userProfile);
+   
   };
 
   return (
-    <div>
-      <h1>Welcome {user.name}!</h1>
+    <section style={{ backgroundColor: '#eee' }}>
+       <Container className="py-5">
+        <Row>
+          <Col>
+            <Breadcrumb className="bg-light rounded-3 p-3 mb-4">
+              <BreadcrumbItem>
+                <Link to={"/"}>Home</Link>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <a href="#">User</a>
+              </BreadcrumbItem>
+              <BreadcrumbItem active>User Profile</BreadcrumbItem>
+            </Breadcrumb>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg="4">
+            <Card className="mb-4">
+              <CardBody className="text-center">
+                <CardImg
+                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                  alt="avatar"
+                  className="rounded-circle"
+                  style={{ width: '150px' }}
+                  fluid />
+                
+                <p className="text-muted mb-4">{userProfile.name}</p>
+                <div className="d-flex justify-content-center mb-2">                  
+                  <Button outline className="ms-1">Message</Button>
+                </div>
+              </CardBody>
+            </Card>
+            <Card className="mb-4 mb-lg-0">
+              <CardBody className="p-0">
+                <ListGroup flush className="rounded-3">
+                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
+                    <i class="ri-global-line" style={ {color: "#f9a826", fontSize:"24px"} }></i>          
+                    
+                    <CardText>https://mdbootstrap.com</CardText>
+                  </ListGroupItem>
+                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
+                    <i class="github fa-lg" style={{ color: '#333333' }} />
+                    <CardText>mdbootstrap</CardText>
+                  </ListGroupItem>
+                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
+                    <icon fab icon="twitter fa-lg" style={{ color: '#55acee' }} />
+                    <CardText>@mdbootstrap</CardText>
+                  </ListGroupItem>
+                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
+                    <icon fab icon="instagram fa-lg" style={{ color: '#ac2bac' }} />
+                    <CardText>mdbootstrap</CardText>
+                  </ListGroupItem>
+                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
+                    <icon fab icon="facebook fa-lg" style={{ color: '#3b5998' }} />
+                    <CardText>mdbootstrap</CardText>
+                  </ListGroupItem>
+                </ListGroup>
+              </CardBody>
+            </Card>
+            </Col>
+            <Col lg="8">
+            <Card className="mb-4">
+              <CardBody>
+                <Row>
+                  <Col sm="3">
+                    <CardText>Full Name</CardText>
+                  </Col>
+                  <Col sm="9">
+                    <CardText className="text-muted">Johnatan Smith</CardText>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col sm="3">
+                    <CardText>Email</CardText>
+                  </Col>
+                  <Col sm="9">
+                    <CardText className="text-muted">{userProfile.email}</CardText>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col sm="3">
+                    <CardText>Phone</CardText>
+                  </Col>
+                  <Col sm="9">
+                    <CardText className="text-muted">(097) 234-5678</CardText>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col sm="3">
+                    <CardText>Mobile</CardText>
+                  </Col>
+                  <Col sm="9">
+                    <CardText className="text-muted">(098) 765-4321</CardText>
+                  </Col>
+                </Row>
+                <hr />
+                <Row>
+                  <Col sm="3">
+                    <CardText>Address</CardText>
+                  </Col>
+                  <Col sm="9">
+                    <CardText className="text-muted">Bay Area, San Francisco, CA</CardText>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+            <Row>
+              <Col md="6">
+                <Card className="mb-4 mb-md-0">
+                  <CardBody>
+                    <CardText className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status</CardText>
+                    <CardText className="mb-1" style={{ fontSize: '.77rem' }}>Web Design</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={80} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Website Markup</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={72} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>One Page</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={89} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Mobile Template</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={55} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Backend API</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={66} valuemin={0} valuemax={100} />
+                    </Progress>
+                  </CardBody>
+                </Card>
+              </Col>
+
+              <Col md="6">
+                <Card className="mb-4 mb-md-0">
+                  <CardBody>
+                    <CardText className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status</CardText>
+                    <CardText className="mb-1" style={{ fontSize: '.77rem' }}>Web Design</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={80} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Website Markup</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={72} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>One Page</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={89} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Mobile Template</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={55} valuemin={0} valuemax={100} />
+                    </Progress>
+
+                    <CardText className="mt-4 mb-1" style={{ fontSize: '.77rem' }}>Backend API</CardText>
+                    <Progress className="rounded">
+                      <ProgressBar width={66} valuemin={0} valuemax={100} />
+                    </Progress>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+            </Col>
+            </Row>
+        </Container>
+    {/* <div>
+      <h1>Welcome {customer.name}!</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
@@ -50,7 +230,8 @@ const UserProfilePage = ({email }) => {
         <br />
         <button type="submit">Save</button>
       </form>
-    </div>
+    </div> */}
+    </section>
   );
 };
 

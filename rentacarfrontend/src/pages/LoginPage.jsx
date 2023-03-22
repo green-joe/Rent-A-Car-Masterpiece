@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from "react-bootstrap/Form";
 import { Col, FormGroup, Row, Card, Button, FormControl } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,16 @@ const LoginPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [popupErrorMessage, setPopupErrorMessage] = useState('')
+  const [customer, setCustomer] = useState({
+    id: '',
+    email: '',
+    firstName: '', lastName: '',
+    birthDate: '',
+    phoneNumber: '',
+    address: '',
+    password: ''
+  })
+
   const navigate = useNavigate();
 
   const handlePopup = (message) => {
@@ -44,21 +54,35 @@ const LoginPage = () => {
       }),
 
     });
- console.log(email)
+   
+    //res.json().then(response=>{setCustomer({...response.customer})})
+
     if (res.status === 200) {
-      setEmail("");
-      setPassword(""); // Retrieve user data from response
-     
-      navigate("/userprofile"), {state:email}; 
+      // setEmail("");
+      //setPassword(""); // Retrieve user data from response
+
+      const response = await res.json();
+
       
+      
+      navigate("/userprofile", { state: {...response.customer} });
+     
+      // res.json().then(customer => {
+      //  console.log(customer.customer)
+      // })
+
     } else {
       setPopupMessage('error')
       res.text().then(errorMessage => {
         setPopupErrorMessage(errorMessage)
       })
+      
+
       // Do something with email and password, such as login with a server API
     };
+
   }
+  
 
   return (
 
