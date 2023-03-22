@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from "react-router-dom";
 import { Container, Row, Col, Card,Breadcrumb,BreadcrumbItem, Button, ProgressBar } from 'react-bootstrap'
 import { CardBody, CardImg, ListGroup,ListGroupItem, CardText,Progress} from 'reactstrap';
 import {Link} from 'react-router-dom'
@@ -7,15 +8,17 @@ import LoginPage from '../LoginPage';
 import Banner from './Banner';
 
 
-const UserProfilePage = (customer) => {
-console.log(customer)
-  const [userProfile, setUserProfile] = useState({
-    name:customer.name,
-    email: customer.email,
-    bio: '',
-    location: ''
-  });
- console.log(userProfile);
+const UserProfilePage = () => {
+  const location = useLocation();
+  const email = location.state
+  const userProfile =  fetch("http://localhost:8080/customer/get/customer", {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+    }
+    });
+  console.log(userProfile.json())
+ 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserProfile({ ...userProfile, [name]: value });
