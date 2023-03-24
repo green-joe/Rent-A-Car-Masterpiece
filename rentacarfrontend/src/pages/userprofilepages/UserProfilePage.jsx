@@ -11,17 +11,17 @@ import Banner from './Banner';
 const UserProfilePage = () => {
   const location = useLocation();
   const email = location.state
-  const userProfile =  fetch("http://localhost:8080/customer/get/customer", {
-    method: "GET",
-    headers: {
-      'Content-Type': 'application/json',
-    }
-    });
-  console.log(userProfile.json())
- 
+  const [user,setUser]=useState({})
+  
+  const userProfile =  fetch(`http://localhost:8080/customer/get/customerByEmail?email=${email}`, {    
+    }).then(response => response.json())
+  .then(data => setUser({...data}))
+  .catch(error => console.error(error+"err"));
+  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUserProfile({ ...userProfile, [name]: value });
+    //setUserProfile({ ...userProfile, [name]: value });
   };
 
   const handleSubmit = (event) => {
@@ -57,35 +57,32 @@ const UserProfilePage = () => {
                   style={{ width: '150px' }}
                   fluid />
                 
-                <p className="text-muted mb-4">{userProfile.name}</p>
-                <div className="d-flex justify-content-center mb-2">                  
+                <p className="text-muted mb-4">{user.firstName}</p>
+                {/* <div className="d-flex justify-content-center mb-2">                  
                   <Button outline className="ms-1">Message</Button>
-                </div>
+                </div> */}
               </CardBody>
             </Card>
             <Card className="mb-4 mb-lg-0">
               <CardBody className="p-0">
                 <ListGroup flush className="rounded-3">
                   <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <i class="ri-global-line" style={ {color: "#f9a826", fontSize:"24px"} }></i>          
+                    <i className="ri-global-line" style={ {color: "#f9a826", fontSize:"24px"} }></i>          
                     
-                    <CardText>https://mdbootstrap.com</CardText>
+                    <CardText>https://exmple.com</CardText>
+                  </ListGroupItem>
+                 
+                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
+                    <i className="ri-twitter-line" style={{ color: '#55acee', fontSize:"24px" }} />
+                    <CardText>Twitter account</CardText>
                   </ListGroupItem>
                   <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <i class="github fa-lg" style={{ color: '#333333' }} />
-                    <CardText>mdbootstrap</CardText>
+                    <i  className="ri-instagram-fill" style={{ color: '#ac2bac', fontSize:"24px" }} />
+                    <CardText>Instagram account</CardText>
                   </ListGroupItem>
                   <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <icon fab icon="twitter fa-lg" style={{ color: '#55acee' }} />
-                    <CardText>@mdbootstrap</CardText>
-                  </ListGroupItem>
-                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <icon fab icon="instagram fa-lg" style={{ color: '#ac2bac' }} />
-                    <CardText>mdbootstrap</CardText>
-                  </ListGroupItem>
-                  <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                    <icon fab icon="facebook fa-lg" style={{ color: '#3b5998' }} />
-                    <CardText>mdbootstrap</CardText>
+                    <i className="ri-facebook-line" style={{ color: '#3b5998', fontSize:"24px" }} />
+                    <CardText>Facebook account</CardText>
                   </ListGroupItem>
                 </ListGroup>
               </CardBody>
@@ -99,7 +96,7 @@ const UserProfilePage = () => {
                     <CardText>Full Name</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">Johnatan Smith</CardText>
+                    <CardText className="text-muted">{user.firstName}{" "}{user.lastName}</CardText>
                   </Col>
                 </Row>
                 <hr />
@@ -108,7 +105,7 @@ const UserProfilePage = () => {
                     <CardText>Email</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">{userProfile.email}</CardText>
+                    <CardText className="text-muted">{user.email}</CardText>
                   </Col>
                 </Row>
                 <hr />
@@ -117,11 +114,11 @@ const UserProfilePage = () => {
                     <CardText>Phone</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">(097) 234-5678</CardText>
+                    <CardText className="text-muted">{user.phoneNumber}</CardText>
                   </Col>
                 </Row>
                 <hr />
-                <Row>
+                {/* <Row>
                   <Col sm="3">
                     <CardText>Mobile</CardText>
                   </Col>
@@ -129,13 +126,13 @@ const UserProfilePage = () => {
                     <CardText className="text-muted">(098) 765-4321</CardText>
                   </Col>
                 </Row>
-                <hr />
+                <hr /> */}
                 <Row>
                   <Col sm="3">
                     <CardText>Address</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">Bay Area, San Francisco, CA</CardText>
+                    <CardText className="text-muted">{user.address}</CardText>
                   </Col>
                 </Row>
               </CardBody>
