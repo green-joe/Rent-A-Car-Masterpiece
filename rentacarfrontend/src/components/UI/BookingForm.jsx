@@ -35,7 +35,7 @@ const BookingForm = () => {
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
         <input type="text" placeholder="To Address" value={rentInfo.toAddress} />
       </FormGroup>
-      <FormGroup className="booking__form d-inline-block me-4 mb-4">
+      {/* <FormGroup className="booking__form d-inline-block me-4 mb-4">
         <select name="" id="">
           <option value="1 person">1 Person</option>
           <option value="2 person">2 Person</option>
@@ -52,7 +52,7 @@ const BookingForm = () => {
           <option value="4 luggage">4 luggage</option>
           <option value="5+ luggage">5+ luggage</option>
         </select>
-      </FormGroup>
+      </FormGroup> */}
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
         <input type="date" placeholder="Journey Date" value={rentInfo.fromDate} />
       </FormGroup>
