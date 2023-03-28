@@ -1,9 +1,11 @@
 package com.carrental.app.models;
 
 import com.carrental.app.models.images.ImageData;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -25,7 +27,7 @@ import java.util.List;
 @Entity
 @Table(name = "cars")
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Car implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,7 +48,14 @@ public class Car implements Serializable {
     @JoinTable(inverseJoinColumns = @JoinColumn(name = "image_id"), name = "car_image")
     private List<ImageData> carImages=new ArrayList<>();
 
-    public Car(Long id, String name, String licencePlate, String description, String description1, String licencePlate1, List<ImageData> carImages) {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
    public void setCarImages(List<ImageData> carImages) {
         this.carImages = carImages;

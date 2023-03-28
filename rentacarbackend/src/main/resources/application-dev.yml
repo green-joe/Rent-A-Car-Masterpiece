@@ -6,6 +6,7 @@ spring:
     username: postgres
     password: itsolutions
     platform: postgres
+
   jpa:
     database: POSTGRESQL
     show-sql: true

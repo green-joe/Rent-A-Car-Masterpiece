@@ -89,7 +89,7 @@ public class CustomerController {
         return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/get/customerByEmail")
+    @GetMapping("/get/byEmail")
     public ResponseEntity<Customer> getCustomerByEmail(@RequestParam("email") String email) throws InstanceNotFoundException {
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new InstanceNotFoundException("Customer not found for email: " + email));

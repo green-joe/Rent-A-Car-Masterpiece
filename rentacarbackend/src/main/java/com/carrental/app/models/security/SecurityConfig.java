@@ -39,6 +39,7 @@ public class SecurityConfig {
                         authorize.requestMatchers(new AntPathRequestMatcher("/car/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/image/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/customer/**/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/booking/**/**")).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin()
