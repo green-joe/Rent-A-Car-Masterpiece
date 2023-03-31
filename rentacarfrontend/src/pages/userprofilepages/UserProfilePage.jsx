@@ -3,9 +3,9 @@ import { useLocation } from "react-router-dom";
 import { Container, Row, Col, Card,Breadcrumb,BreadcrumbItem, Button, ProgressBar } from 'react-bootstrap'
 import { CardBody, CardImg, ListGroup,ListGroupItem, CardText,Progress} from 'reactstrap';
 import {Link} from 'react-router-dom'
-import Helmet from "../../components/Helmet/Helmet";
+
 import LoginPage from '../LoginPage';
-import Banner from './Banner';
+
 
 
 const UserProfilePage = () => {
