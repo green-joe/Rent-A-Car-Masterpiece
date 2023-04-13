@@ -13,7 +13,7 @@ const UserProfilePage = () => {
   const email = location.state
   const [user,setUser]=useState({})
   
-  const userProfile =  fetch(`http://localhost:8080/customer/get/customerByEmail?email=${email}`, {    
+  const userData =  fetch(`http://localhost:8080/customer/get/customerByEmail?email=${email}`, {    
     }).then(response => response.json())
   .then(data => setUser({...data}))
   .catch(error => console.error(error+"err"));

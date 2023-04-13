@@ -4,7 +4,6 @@ import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom";
 import BookingForm from "../components/UI/BookingForm";
-import PaymentMethod from "../components/UI/PaymentMethod";
 import { getAllCars } from "../services/GetCarsData";
 
 const CarDetails = () => {
@@ -18,8 +17,7 @@ const CarDetails = () => {
       listOfCars = [...data]
       for (let i = 0; i < listOfCars.length; i++) {
         if (listOfCars[i].name === slug)
-          oneCar = listOfCars[i]
-        console.log(oneCar)
+          oneCar = listOfCars[i]        
         setSingleCarItem(oneCar)
       }
     })
