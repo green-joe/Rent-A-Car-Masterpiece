@@ -13,6 +13,7 @@ const BookingForm = () => {
 
   const storedData = localStorage.getItem('rentInfo');
   const rentInfo = JSON.parse(storedData)
+  console.log(rentInfo)
 
   return (
     <Form onSubmit={submitHandler}>
