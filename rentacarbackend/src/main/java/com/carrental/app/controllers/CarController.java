@@ -43,6 +43,7 @@ public class CarController {
     public Car create(@RequestBody Car car) {
         return carService.saveCar(car);
     }
+
     @PostMapping("/{id}/images")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file, @PathVariable("id") Long id) throws IOException {
         Car car=carRepository.findById(id).orElseThrow();
