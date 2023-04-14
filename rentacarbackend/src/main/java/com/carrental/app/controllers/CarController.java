@@ -32,6 +32,7 @@ import java.util.List;
 @CrossOrigin
 @RequiredArgsConstructor
 public class CarController {
+
     @Autowired
     private final ImageDataRepository imageDataRepository;
     private final ImageDataService imageDataService;
