@@ -34,7 +34,6 @@ import java.util.List;
 public class CarController {
 
     @Autowired
-    private final ImageDataRepository imageDataRepository;
     private final ImageDataService imageDataService;
     private final CarRepository carRepository;
     private final CarService carService;
