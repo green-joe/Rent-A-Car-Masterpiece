@@ -1,79 +1,153 @@
 import React, { useState, useEffect } from 'react'
-import { Form, FormGroup } from 'reactstrap'
+import { Form, FormGroup, Button } from 'reactstrap'
 import "../../styles/booking-form.css";
 
 
 const BookingForm = () => {
-
-  const submitHandler = (event) => {
-    event.preventDafault();
-
-  };
-
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const storedData = localStorage.getItem('rentInfo');
-  const rentInfo = JSON.parse(storedData)
+  const [rentInfo, setRentInfo] = useState(JSON.parse(storedData)) || {}
   console.log(rentInfo)
 
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  setRentInfo((prevRentInfo) => ({
+    ...prevRentInfo,
+    [name]: value,
+  }));
+  localStorage.setItem(
+    'rentInfo',
+    JSON.stringify({
+      ...rentInfo,
+      [name]: value,
+    })
+  );
+  }
+
+  //const storedData = localStorage.getItem('rentInfo');
+  // const rentInfo = JSON.parse(storedData)
+  console.log(rentInfo.fromDate)
+  const renter=JSON.parse(sessionStorage.getItem('customer'))
+  console.log(renter.id)
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if(isLoggedIn==true){
+
+    }
+
+    let res = await fetch("http://localhost:8080/booking/save", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      
+      body: JSON.stringify({
+      customer:{  
+      id:renter.id,
+      },
+      pickupDate:fromDate,
+      returnDate:toDate,
+      fromAddress:fromAddress,
+      toAddress:toAddress,
+      }),
+
+    });
+
+    if (res.status === 200) {
+      console.log("its ok")
+      /* setFirstName("")      
+       setLastName("");
+       setEmail("");
+       setPassword("");
+       setConfirmPassword("")*/
+      //setPopupMessage('success')
+    } else {
+      // setPopupMessage('error')
+      res.text().then(errorMessage => {
+        console.log(errorMessage)
+        // setPopupErrorMessage(errorMessage)
+      })
+    }
+
+
+
+  };
+  const customer = JSON.parse(sessionStorage.getItem('customer'));
+  useEffect(() => {
+
+    const token = sessionStorage.getItem('customer');
+    if (token != null) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+  console.log(isLoggedIn)
   return (
-    <Form onSubmit={submitHandler}>
+    <Form onSubmit={handleSubmit}>
       <FormGroup className='booking__form d-inline-block me-4 mb-4'>
-        <input type="text" placeholder='First name' />
+        <input type="text" name="firstName"placeholder='First name' value={customer.firstName} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="text" placeholder="Last Name" />
+        <input type="text" name="lastName"placeholder="Last Name" value={customer.lastName} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="email" placeholder="Email" />
+        <input type="email" name="email"  placeholder="Email" value={customer.email} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="number" placeholder="Phone Number" />
+        <input type="number" name="phoneNumber" placeholder="Phone Number" disabled value={customer.phoneNumber} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="text" placeholder="From Address" value={rentInfo.fromAddress} />
+        <input type="text" name="fromAddress"placeholder="From Address" value={rentInfo.fromAddress} onChange={handleInputChange} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="text" placeholder="To Address" value={rentInfo.toAddress} />
-      </FormGroup>
-      {/* <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <select name="" id="">
-          <option value="1 person">1 Person</option>
-          <option value="2 person">2 Person</option>
-          <option value="3 person">3 Person</option>
-          <option value="4 person">4 Person</option>
-          <option value="5+ person">5+ Person</option>
-        </select>
-      </FormGroup>
-      <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <select name="" id="">
-          <option value="1 luggage">1 luggage</option>
-          <option value="2 luggage">2 luggage</option>
-          <option value="3 luggage">3 luggage</option>
-          <option value="4 luggage">4 luggage</option>
-          <option value="5+ luggage">5+ luggage</option>
-        </select>
-      </FormGroup> */}
+        <input type="text" name="toAddress" placeholder="To Address" value={rentInfo.toAddress} onChange={handleInputChange} />
+      </FormGroup>     
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="date" placeholder="Journey Date" value={rentInfo.fromDate} />
+        <input className="time__picker"  name="fromDate" placeholder="Journey Time" type="date" value={rentInfo.fromDate} onChange={handleInputChange} />
       </FormGroup>
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
         <input
           type="time"
+          name='fromTime'
           placeholder="Journey Time"
           className="time__picker"
           value={rentInfo.fromTime}
+          onChange={handleInputChange}
         />
       </FormGroup>
+      <FormGroup className="booking__form d-inline-block me-4 mb-4">
+        <input className="time__picker"  name="toDate" placeholder="Journey Time" type="date" value={rentInfo.toDate} onChange={handleInputChange} />
+      </FormGroup>
+      <FormGroup className="booking__form d-inline-block ms-1 mb-4">
+        <input
+          type="time"
+          name='toTime'
+          placeholder="Journey Time"
+          className="time__picker"
+          value={rentInfo.toTime}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+
 
       <FormGroup>
         <textarea
           rows={5}
           type="textarea"
           className="textarea"
+          name='textArea'
           placeholder="Write"
         ></textarea>
       </FormGroup>
+      <div className="d-grid">
+        <Button variant="primary" type="submit" >Booking</Button>
+        {/* {popupMessage === 'error' && (
+                       // showPopup && <Popup message={popupErrorMessage} 
+                       //onClose={} />
+                     // )} */}
+      </div>
 
     </Form>
   )

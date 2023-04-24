@@ -21,7 +21,7 @@
 .textarea:focus,
 .booking__form input:focus,
 .booking__form select:focus{
-    outline: none;
+    outline:auto;
 }
 @media only screen and(max-width: 768px){
     .booking__form{

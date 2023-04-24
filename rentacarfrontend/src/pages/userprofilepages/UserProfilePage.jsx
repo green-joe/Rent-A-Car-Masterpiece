@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { Container, Row, Col, Card,Breadcrumb,BreadcrumbItem, Button, ProgressBar } from 'react-bootstrap'
 import { CardBody, CardImg, ListGroup,ListGroupItem, CardText,Progress} from 'reactstrap';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 
-import LoginPage from '../LoginPage';
+
+
 
 
 
@@ -12,23 +13,38 @@ const UserProfilePage = () => {
   const location = useLocation();
   const email = location.state
   const [user,setUser]=useState({})
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-  const userData =  fetch(`http://localhost:8080/customer/get/customerByEmail?email=${email}`, {    
+  
+  fetch(`http://localhost:8080/customer/get/byEmail?email=${email}`, {    
     }).then(response => response.json())
   .then(data => setUser({...data}))
   .catch(error => console.error(error+"err"));
-  
+  sessionStorage.setItem('customer', JSON.stringify(user));
+   
 
-  const handleInputChange = (event) => {
+  function handleInputChange(event) {
     const { name, value } = event.target;
     //setUserProfile({ ...userProfile, [name]: value });
-  };
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Here you can send the userProfile object to a backend or do something else with the data
    
   };
+  useEffect(() => {
+    const user = sessionStorage.getItem('user');
+    if (user) {
+      setIsLoggedIn(true);
+      console.log(user)
+      
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+  console.log(isLoggedIn)
+ 
 
   return (
     <section style={{ backgroundColor: '#eee' }}>
