@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 @Table(name="booking")
@@ -41,6 +42,11 @@ public class Booking {
 
     @Column(name = "return_date")
     private Date returnDate;
+    @Column(name = "pickup_time")
+    private Time pickupTime;
+
+    @Column(name = "return_time")
+    private Time returnTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_image_id")
