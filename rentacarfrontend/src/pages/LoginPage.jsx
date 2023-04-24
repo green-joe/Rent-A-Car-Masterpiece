@@ -8,6 +8,7 @@ import hidePwdImg from '../assets/all-images/hide-password.svg'
 import showPwdImg from '../assets/all-images/show-password.svg'
 import Popup from '../services/Popup'
 import '../styles/popup.css'
+import { useParams } from "react-router-dom";
 
 
 
@@ -53,7 +54,7 @@ const LoginPage = () => {
       // setEmail("");
       //setPassword(""); // Retrieve user data from response       
       console.log(email)
-      navigate("/userprofile",  {state: email} );
+      navigate("/userprofile/",  {state: email} );
       
       // res.json().then(customer => {
       //  console.log(customer.customer)

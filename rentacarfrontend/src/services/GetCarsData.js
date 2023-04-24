@@ -23,6 +23,7 @@ export const getAllCars=()=> getAllData().then(data=>{
     }
     const car =
     {
+      id:data[i].id,
       imageData: base64Flag + data[i].carImages[0].imageData,
       name: data[i].name,
       price: data[i].pricePerDay,

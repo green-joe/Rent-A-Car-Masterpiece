@@ -59,15 +59,11 @@ const FindCarForm = () => {
                 name="toAddress" />
 
             </FormGroup>
-
-
-
             <FormGroup className="form__group">
               <input type="date" placeholder="Journey date" required
                 name="toDate"
                 value={rentInfo.toDate} />
             </FormGroup>
-
             <FormGroup className="form__group">
               <input
                 className="journey__time"
