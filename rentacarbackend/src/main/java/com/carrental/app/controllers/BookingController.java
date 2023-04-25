@@ -3,6 +3,7 @@ package com.carrental.app.controllers;
 import com.carrental.app.models.Booking;
 import com.carrental.app.models.intefaces.BookingMini;
 import com.carrental.app.repositories.BookingRepository;
+import com.carrental.app.services.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ public class BookingController {
 
     @Autowired
     private final BookingRepository bookingRepository;
+    private final BookingService bookingService;
 
 
     @GetMapping("/get/all")
@@ -42,7 +44,7 @@ public class BookingController {
 
     @PostMapping("/save")
     public Booking createBooking(@RequestBody Booking booking) {
-        return bookingRepository.save(booking);
+        return bookingService.saveOrUpdateABooking(booking);
     }
 
     @PutMapping("/{id}")

@@ -48,9 +48,25 @@ public class Booking {
     @Column(name = "return_time")
     private Time returnTime;
 
+    @Column(name="notes")
+    private String textArea;
+
+    @Column(name="from_address")
+    private String fromAddress;
+
+    @Column(name="to_address")
+    private String toAddress;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_image_id")
     private ImageData carImage;
 
+    public void setPickupTime(String time) {
+        this.pickupTime = Time.valueOf(time);
+    }
 
+    public void setReturnTime(String time) {
+        this.returnTime = Time.valueOf(time);
+
+    }
 }
