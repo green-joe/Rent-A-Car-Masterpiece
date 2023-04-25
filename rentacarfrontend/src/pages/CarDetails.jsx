@@ -7,7 +7,7 @@ import BookingForm from "../components/UI/BookingForm";
 import { getAllCars } from "../services/GetCarsData";
 
 const CarDetails = () => {
-  const { slug } = useParams();
+  const { slug } = useParams();  
   const [cars, setCars] = useState()
   const [singleCarItem, setSingleCarItem] = useState({})
   let oneCar = {}
