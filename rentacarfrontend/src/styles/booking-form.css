@@ -16,8 +16,9 @@
     content: "Journey Time";
     color:#7c8a97;
     margin-right: 0.5rem;
+    
 
-}
+} 
 .textarea:focus,
 .booking__form input:focus,
 .booking__form select:focus{

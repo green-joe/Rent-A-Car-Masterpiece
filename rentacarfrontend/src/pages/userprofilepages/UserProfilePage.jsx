@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import { Container, Row, Col, Card,Breadcrumb,BreadcrumbItem, Button, ProgressBar } from 'react-bootstrap'
 import { CardBody, CardImg, ListGroup,ListGroupItem, CardText,Progress} from 'reactstrap';
 import {Link} from 'react-router-dom';
@@ -10,17 +10,22 @@ import {Link} from 'react-router-dom';
 
 
 const UserProfilePage = () => {
+  const history = useNavigate();
   const location = useLocation();
   const email = location.state
   const [user,setUser]=useState({})
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+   const customer = sessionStorage.getItem('customer');
+   console.log(customer)
+    
+  console.log(email)
   
   fetch(`http://localhost:8080/customer/get/byEmail?email=${email}`, {    
     }).then(response => response.json())
-  .then(data => setUser({...data}))
-  .catch(error => console.error(error+"err"));
-  sessionStorage.setItem('customer', JSON.stringify(user));
+   .then(data => setUser({...data}))
+   .catch(error => console.error(error+"err"));
+  sessionStorage.setItem('isLoggedIn',true);
+  
    
 
   function handleInputChange(event) {
@@ -30,21 +35,43 @@ const UserProfilePage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    fetch(`http://localhost:8080/customer/auth/logout`)
+      .then(response => {
+        if (response.ok) {
+          console.log("Logged out successfully");
+          setIsLoggedIn(false)
+          
+            sessionStorage.removeItem('customer');
+            history('/home');
+          
+          
+        } else {
+          console.log("Failed to log out");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    
+  }
+  // useEffect(() => {
+  //   console.log(...customer)
+  //      if (customer) {
+  //        setIsLoggedIn(true);     
+        
+  //      } else {
+  //        setIsLoggedIn(false);
+  //      }
+  //    }, []);
+    
     // Here you can send the userProfile object to a backend or do something else with the data
    
-  };
-  useEffect(() => {
-    const user = sessionStorage.getItem('user');
-    if (user) {
-      setIsLoggedIn(true);
-      console.log(user)
-      
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-  console.log(isLoggedIn)
+  
  
+    
+    
+    
+  console.log(isLoggedIn) 
 
   return (
     <section style={{ backgroundColor: '#eee' }}>
@@ -153,7 +180,7 @@ const UserProfilePage = () => {
                 </Row>
               </CardBody>
             </Card>
-            <Row>
+            {/* <Row>
               <Col md="6">
                 <Card className="mb-4 mb-md-0">
                   <CardBody>
@@ -217,79 +244,21 @@ const UserProfilePage = () => {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
+            </Row> */}
+             <div className="d-grid">
+                      <Button variant="primary" type="submit" onClick={handleSubmit}>Logout</Button>
+                      {/* {!isLoggedIn && sessionStorage.removeItem('customer')} */}
+                     
+                                                              
+                      {/* {popupMessage === 'error' && (
+                        showPopup && <Popup message={popupErrorMessage} onClose={handleClosePopup} />
+                      )} */}
+                    </div>
             </Col>
             </Row>
-        </Container>
-    {/* <div>
-      <h1>Welcome {customer.name}!</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" name="name" value={userProfile.name} onChange={handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input type="email" name="email" value={userProfile.email} onChange={handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Bio:
-          <textarea name="bio" value={userProfile.bio} onChange={handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Location:
-          <input type="text" name="location" value={userProfile.location} onChange={handleInputChange} />
-        </label>
-        <br />
-        <button type="submit">Save</button>
-      </form>
-    </div> */}
+        </Container>    
     </section>
   );
 };
 
 export default UserProfilePage;
-
-
-// const UserProfilePage = (user) => {  
-  
-//   const handleLogout = () => {
-//     // TODO: Implement logout logic
-//     setIsLoggedIn(false);
-//   };
-
-//   return (
-//     <Helmet title={user.name}>
-//       <Banner/>
-//     {/* <div className='vh-100' style={{ backgroundColor: "#f9a826" }}>
-//       <Container>
-//         <Row className="justify-content-center">
-//           <Col md="9" lg="7" xl="8" className="mt-5">
-//             <Card style={{ borderRadius: '15px', backgroundColor: '#93e2bb' }}>
-//               <CardBody className="p-4 text-black">
-//                 <div>
-//                   <h1>Profile Page</h1>
-//                   <h6 className='display-5'>My name is</h6>
-//                   <div className="d-flex align-items-center justify-content-between mb-3">
-//                     <p className="small mb-0"><i
-//                       className="ri-roadster-line"
-//                       style={{ color: "#f9a826" }}
-//                     ></i>3 hrs</p>
-//                     <p className="fw-bold mb-0">$90</p>
-//                   </div>
-//                 </div>               
-              
-//               </CardBody>
-//             </Card>
-//           </Col>
-//         </Row>
-//       </Container>
-//     </div> */}
-//     </Helmet>
-//   );
-
-// }
-

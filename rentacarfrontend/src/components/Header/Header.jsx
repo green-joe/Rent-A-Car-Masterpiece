@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-
+import React, { useRef, useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/header.css"
@@ -16,7 +15,7 @@ const navLinks = [
   {
     path: "/cars",
     display: "Cars",
-  },  
+  },
   {
     path: "/contact",
     display: "Contact",
@@ -25,9 +24,26 @@ const navLinks = [
 
 const Header = () => {
   const menuRef = useRef(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const customerJson = sessionStorage.getItem('customer');
+const customer = useState(JSON.parse(customerJson));
 
+//const lastName = customer.lastName;
+//console.log(lastName); // will log "akaármi"
+  
+ 
+ 
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
-
+  useEffect(() => {
+ console.log(...customer)
+    if (customerJson != null) {
+      setIsLoggedIn(true);     
+     
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+  console.log(isLoggedIn)
   return (
     <header className="header">
       {/* ============ header top ============ */}
@@ -45,9 +61,15 @@ const Header = () => {
 
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                <Link to="/login" className=" d-flex align-items-center gap-1">
-                  <i class="ri-login-circle-line"></i> Login
-                </Link >
+                {isLoggedIn ? (
+                  <Link to="/userprofile" className="d-flex align-items-center gap-1">
+                    <i class="ri-user-line"></i> {{...customer}.lastName}
+                  </Link>
+                ) : (
+                  <Link to="/login" className=" d-flex align-items-center gap-1">
+                    <i class="ri-login-circle-line"></i> Login
+                  </Link >
+                )}
 
                 <Link to="/registration" className=" d-flex align-items-center gap-1">
                   <i class="ri-user-line"></i> Register
@@ -99,7 +121,7 @@ const Header = () => {
               </div>
             </Col>
 
-           
+
           </Row>
         </Container>
       </div>
