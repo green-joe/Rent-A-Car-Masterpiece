@@ -73,13 +73,7 @@ const FindCarForm = () => {
                 value={rentInfo.toTime}
                 name="toTime"
               />
-            </FormGroup>
-            {/* <FormGroup className="select__group">
-          <select>
-            <option value="ac">AC Car</option>
-            <option value="non-ac">Non AC Car</option>
-          </select>
-        </FormGroup> */}
+            </FormGroup>          
 
 
             <FormGroup className="form__group w-100" >

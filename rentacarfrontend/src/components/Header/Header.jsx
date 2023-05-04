@@ -1,7 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useLocation } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/header.css"
+import UserProfilePage from "../../pages/UserProfilePage"
+import LoginPage from "../../pages/LoginPage";
 
 const navLinks = [
   {
@@ -22,28 +24,101 @@ const navLinks = [
   },
 ];
 
-const Header = () => {
+const Header = (user) => {
   const menuRef = useRef(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  
-  const customerJson = sessionStorage.getItem('customer');
-const customer = useState(JSON.parse(customerJson));
-
-//const lastName = customer.lastName;
-//console.log(lastName); // will log "akaármi"
+  //const location = useLocation();
   
- 
- 
-  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
-  useEffect(() => {
- console.log(...customer)
-    if (customerJson != null) {
-      setIsLoggedIn(true);     
+  //const customer = (localStorage.getItem('customer'));
+  const [isLogged, setIsLogged] = useState(false);
+  console.log(isLogged)
+  
+
+  // const isLoggedIn =(JSON.parse(sessionStorage.getItem('isLoggedIn')));
+
+  //const customer = useState(JSON.parse(customerJson));
+
+  //const lastName = customer.lastName;
+  //console.log(lastName); // will log "akaármi"
+
+  // function getLocalStore() {
+  //   const isLoggedIN = window.localStorage.getItem('isLoggedIn')
+  //  window.addEventListener('storage',handleStorageChange)
+    //if (winJSON.parse(isLoggedIN) === true) {
      
-    } else {
-      setIsLoggedIn(false);
+    
+  
+  //   function handleStorageChange(event) {
+  //     if(event.key==='isLoggedIn'){
+  //       console.log(event.key)
+  //     setIsLoggedIn(localStorage.getItem('isLoggedIn')|| null);
+  //     }
+
+  //   }
+  //   function handleStorageChangeNewValue(event) {
+  //     if(event.key==='isLoggedIn'){
+  //     setIsLoggedIn(localStorage.getItem('isLoggedIn')|| null);
+  //      }
+
+  //   }
+
+  //   window.addEventListener('storage', handleStorageChange);
+  //   window.addEventListener('storage', handleStorageChangeNewValue);
+
+
+
+
+  //   return () => {
+  //     window.removeEventListener('storage', handleStorageChange);
+  //     window.removeEventListener('storage',handleStorageChangeNewValue)
+
+  //   };
+  // //   const items = JSON.parse(localStorage.getItem('isLoggedIn'));
+  // //   if (items) {
+  // //    setIsLoggedIn(items);
+  // //   }
+  // //   window.addEventListener("storage",(e) => {
+  // //     this.setState({ auth: true});
+  // //  });
+
+  //  // window.addEventListener('storage', storageEventHandler, false);
+
+  useEffect(() => {
+   
+     function handleStorageChange() {
+      if(localStorage.getItem('isLoggedIn')==='true'){         
+       setIsLogged(true);
+       }else{
+        setIsLogged(false)
+       }
+      }
+  //   }
+  //   function handleStorageChangeNewValue(event) {
+  //     if(event.key==='isLoggedIn'){
+  //     setIsLoggedIn(localStorage.getItem('isLoggedIn')|| null);
+  //      }
+
+  //   }
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+          window.removeEventListener('storage', handleStorageChange);
     }
+
   }, []);
-  console.log(isLoggedIn)
+ 
+
+  // function handleStorageChange(event) {
+  //   if (event.key === 'isLoggedIn') {
+  //     console.log(event.key)
+  //     setIsLoggedIn(localStorage.getItem('isLoggedIn') || null);
+  //   }
+  // }
+  console.log(window.isLoggedIn)
+
+
+  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+
+
   return (
     <header className="header">
       {/* ============ header top ============ */}
@@ -61,18 +136,27 @@ const customer = useState(JSON.parse(customerJson));
 
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                {isLoggedIn ? (
-                  <Link to="/userprofile" className="d-flex align-items-center gap-1">
-                    <i class="ri-user-line"></i> {{...customer}.lastName}
-                  </Link>
-                ) : (
-                  <Link to="/login" className=" d-flex align-items-center gap-1">
-                    <i class="ri-login-circle-line"></i> Login
-                  </Link >
-                )}
+                {/* {isLoggedIn
+                   ?(
+                <Link to="/userprofile" className="d-flex align-items-center gap-1">
+                  <i class="ri-user-line"></i> valami
+                </Link>
+                )
+                : (
+                <Link to="/login" className=" d-flex align-items-center gap-1">
+                  <i class="ri-login-circle-line"></i> Login
+                </Link >
+                )}    */}
+                <Link to={isLogged ? "/userprofile": "/login"} className="d-flex align-items-center gap-1">
+                  {isLogged ? <i class="ri-user-line"></i> : <i class="ri-login-circle-line"></i>} {isLogged ? "valami" : "Login"}
+                </Link>
+                {/* <Link to={isLoggedOut ? "/login":"/userprofile"} className="d-flex align-items-center gap-1">
+                  {isLoggedOut ?  <i class="ri-login-circle-line"></i> : <i class="ri-user-line"></i>} {isLoggedOut ?  "Login" :"valami"}
+                </Link> */}
 
-                <Link to="/registration" className=" d-flex align-items-center gap-1">
-                  <i class="ri-user-line"></i> Register
+
+                <Link to= "/registration"  className={!isLogged ? "d-flex align-items-center gap-1" :"registration-link"}>
+                  {!isLogged? <i class="ri-user-line"></i> && "Register" : <i className="registration-link"></i>}
                 </Link>
               </div>
             </Col>

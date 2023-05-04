@@ -3,7 +3,6 @@ import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import CarItem from "../components/UI/CarItem";
-//import carData from "../assets/data/carData";
 
 
 const CarListing = () => {
@@ -36,13 +35,12 @@ const CarListing = () => {
                 <span className=" d-flex align-items-center gap-2">
                   {sorticon}
                 </span>
-                <select onChange={handleChange} > {/* {(e)=>{const selectedOrder=e.target.value;                  
-                setSelected(selectedOrder)}}> */}
+                <select onChange={handleChange} >
                   <option defaultValue={0} >Select</option>
                   <option value="low">Low to High</option>
                   <option value="high">High to Low</option>
                 </select>
-                
+
               </div>
 
             </Col >

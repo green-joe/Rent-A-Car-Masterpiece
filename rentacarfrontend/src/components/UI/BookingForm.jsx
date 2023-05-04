@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import Popup from '../../services/Popup';
 
 
+
+
 const BookingForm = () => { 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [textArea, setTextArea] = useState('')
@@ -52,8 +54,8 @@ const BookingForm = () => {
 
 
   console.log(rentInfo.fromDate, rentInfo.toDate, textArea, toTimeWithSeconds, fromTimeWithSeconds)
-  const renter = JSON.parse(sessionStorage.getItem('customer'))
-  console.log(renter.id)
+  const renter = (localStorage.getItem('customer'))
+  
   const handleSubmit = async (event) => { 
     event.preventDefault();      
    
@@ -113,15 +115,20 @@ const BookingForm = () => {
     }
   };
 
-  const customer = JSON.parse(sessionStorage.getItem('customer'));
+   
+   const customer=JSON.parse(localStorage.getItem('customer'))
+   console.log(customer.lastName)
+  
   useEffect(() => {
+    const customer=JSON.parse(localStorage.getItem('customer'))
+   console.log(customer.lastName)
     //const token = sessionStorage.getItem('customer');
-    if (customer != null) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [isLoggedIn]);
+     if (customer != null) {
+       setIsLoggedIn(true);
+     } else {
+       setIsLoggedIn(false);
+     }
+  }, []);
   console.log(isLoggedIn)
   return (
     <Form onSubmit={handleSubmit}>

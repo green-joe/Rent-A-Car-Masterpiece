@@ -204,4 +204,12 @@
     .menu__active {
       display: block;
     }
+
+    .registration-link {
+      display: block;
+    }
+    
+    .registration-link.hidden {
+      display: none; 
+    }
   }

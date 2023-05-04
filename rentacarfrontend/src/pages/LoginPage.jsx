@@ -8,7 +8,6 @@ import hidePwdImg from '../assets/all-images/hide-password.svg'
 import showPwdImg from '../assets/all-images/show-password.svg'
 import Popup from '../services/Popup'
 import '../styles/popup.css'
-import { useParams } from "react-router-dom";
 
 
 
@@ -20,7 +19,10 @@ const LoginPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [popupErrorMessage, setPopupErrorMessage] = useState('')
- 
+  const storedData = localStorage.getItem('isLoggedIn');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
 
   const navigate = useNavigate();
 
@@ -47,15 +49,18 @@ const LoginPage = () => {
       }),
 
     });
-   
-    //res.json().then(response=>{setCustomer({...response.customer})})
 
-    if (res.status === 200) {
-      // setEmail("");
-      //setPassword(""); // Retrieve user data from response       
-      console.log(email)
-      navigate("/userprofile/",  {state: email} );
+    
+
+    if (res.status === 200) {            
       
+      setIsLoggedIn(true)
+      localStorage.setItem('isLoggedIn', JSON.stringify(true))
+      window.dispatchEvent(new Event('storage'))     
+
+      navigate("/userprofile/", { state: email });
+
+
       // res.json().then(customer => {
       //  console.log(customer.customer)
       // })
@@ -65,13 +70,13 @@ const LoginPage = () => {
       res.text().then(errorMessage => {
         setPopupErrorMessage(errorMessage)
       })
-      
+
 
       // Do something with email and password, such as login with a server API
     };
 
   }
-  
+
 
   return (
 
@@ -136,8 +141,7 @@ const LoginPage = () => {
                   </div>
                 </div>
               </div>
-
-            </Card.Body> </div>
+             </Card.Body> </div>
         </Card>
       </Col>
     </Row>

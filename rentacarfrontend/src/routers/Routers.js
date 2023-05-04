@@ -8,7 +8,7 @@ import Contact from '../pages/Contact';
 import NotFound from "../pages/NotFound";
 import LoginPage from '../pages/LoginPage';
 import RegistrationPage from '../pages/RegistrationPage';
-import UserProfilePage from '../pages/userprofilepages/UserProfilePage';
+import UserProfilePage from '../pages/UserProfilePage';
 
 
 
