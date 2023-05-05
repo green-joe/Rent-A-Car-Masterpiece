@@ -17,7 +17,7 @@ const UserProfilePage = () => {
 
 
 
-  console.log(email)
+  
 
   fetch(`http://localhost:8080/customer/get/byEmail?email=${email}`, {
   }).then(response => response.json())
@@ -30,9 +30,9 @@ const UserProfilePage = () => {
     .catch(error => console.error(error + "err"));
     
     
-    
   
   localStorage.setItem('customer',JSON.stringify(customer))
+ 
 
 
   function handleInputChange(event) {
@@ -48,6 +48,7 @@ const UserProfilePage = () => {
       if (response.ok) {
         console.log("Logged out successfully");
         localStorage.removeItem('isLoggedIn')
+        localStorage.removeItem('customer')
         
         redirect("/home");
         window.dispatchEvent(new Event('storage'))
@@ -63,9 +64,8 @@ const UserProfilePage = () => {
 
 
   }
-  useEffect(() => {
-   
-    
+  useEffect(() => {  
+  
 
     window.dispatchEvent(new Event('storage'))
   }, []);
@@ -99,7 +99,7 @@ const UserProfilePage = () => {
                   style={{ width: '150px' }}
                   fluid />
 
-                <p className="text-muted mb-4">{user.firstName}</p>
+                <p className="text-muted mb-4">{customer.firstName}</p>
                 {/* <div className="d-flex justify-content-center mb-2">                  
                   <Button outline className="ms-1">Message</Button>
                 </div> */}
@@ -140,7 +140,7 @@ const UserProfilePage = () => {
                     <CardText>Full Name</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">{user.firstName}{" "}{user.lastName}</CardText>
+                    <CardText className="text-muted">{customer.firstName}{" "}{customer.lastName}</CardText>
                   </Col>
                 </Row>
                 <hr />
@@ -149,7 +149,7 @@ const UserProfilePage = () => {
                     <CardText>Email</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">{user.email}</CardText>
+                    <CardText className="text-muted">{customer.email}</CardText>
                   </Col>
                 </Row>
                 <hr />
@@ -158,7 +158,7 @@ const UserProfilePage = () => {
                     <CardText>Phone</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">{user.phoneNumber}</CardText>
+                    <CardText className="text-muted">{customer.phoneNumber}</CardText>
                   </Col>
                 </Row>
                 <hr />
@@ -168,7 +168,7 @@ const UserProfilePage = () => {
                     <CardText>Address</CardText>
                   </Col>
                   <Col sm="9">
-                    <CardText className="text-muted">{user.address}</CardText>
+                    <CardText className="text-muted">{customer.address}</CardText>
                   </Col>
                 </Row>
               </CardBody>

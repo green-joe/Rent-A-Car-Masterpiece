@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Form from "react-bootstrap/Form";
 import { Col, FormGroup, Row, Card, Button, FormControl } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
@@ -58,21 +58,13 @@ const LoginPage = () => {
       localStorage.setItem('isLoggedIn', JSON.stringify(true))
       window.dispatchEvent(new Event('storage'))     
 
-      navigate("/userprofile/", { state: email });
-
-
-      // res.json().then(customer => {
-      //  console.log(customer.customer)
-      // })
+      navigate("/userprofile/", { state: email });      
 
     } else {
       setPopupMessage('error')
       res.text().then(errorMessage => {
         setPopupErrorMessage(errorMessage)
-      })
-
-
-      // Do something with email and password, such as login with a server API
+      })      
     };
 
   }
@@ -145,9 +137,6 @@ const LoginPage = () => {
         </Card>
       </Col>
     </Row>
-
-
-
   );
 };
 

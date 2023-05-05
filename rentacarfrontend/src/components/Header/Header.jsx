@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState, useLocation } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink } from "react-router-dom";
 import "../../styles/header.css"
-import UserProfilePage from "../../pages/UserProfilePage"
-import LoginPage from "../../pages/LoginPage";
+
+
 
 const navLinks = [
   {
@@ -24,97 +24,32 @@ const navLinks = [
   },
 ];
 
-const Header = (user) => {
-  const menuRef = useRef(null);
-  //const location = useLocation();
+const Header = () => {
+  const menuRef = useRef(null);  
+
+  const user=(JSON.parse(localStorage.getItem('customer')))
   
-  //const customer = (localStorage.getItem('customer'));
-  const [isLogged, setIsLogged] = useState(false);
-  console.log(isLogged)
-  
-
-  // const isLoggedIn =(JSON.parse(sessionStorage.getItem('isLoggedIn')));
-
-  //const customer = useState(JSON.parse(customerJson));
-
-  //const lastName = customer.lastName;
-  //console.log(lastName); // will log "akaármi"
-
-  // function getLocalStore() {
-  //   const isLoggedIN = window.localStorage.getItem('isLoggedIn')
-  //  window.addEventListener('storage',handleStorageChange)
-    //if (winJSON.parse(isLoggedIN) === true) {
-     
-    
-  
-  //   function handleStorageChange(event) {
-  //     if(event.key==='isLoggedIn'){
-  //       console.log(event.key)
-  //     setIsLoggedIn(localStorage.getItem('isLoggedIn')|| null);
-  //     }
-
-  //   }
-  //   function handleStorageChangeNewValue(event) {
-  //     if(event.key==='isLoggedIn'){
-  //     setIsLoggedIn(localStorage.getItem('isLoggedIn')|| null);
-  //      }
-
-  //   }
-
-  //   window.addEventListener('storage', handleStorageChange);
-  //   window.addEventListener('storage', handleStorageChangeNewValue);
-
-
-
-
-  //   return () => {
-  //     window.removeEventListener('storage', handleStorageChange);
-  //     window.removeEventListener('storage',handleStorageChangeNewValue)
-
-  //   };
-  // //   const items = JSON.parse(localStorage.getItem('isLoggedIn'));
-  // //   if (items) {
-  // //    setIsLoggedIn(items);
-  // //   }
-  // //   window.addEventListener("storage",(e) => {
-  // //     this.setState({ auth: true});
-  // //  });
-
-  //  // window.addEventListener('storage', storageEventHandler, false);
-
+  const [isLogged, setIsLogged] = useState(false); 
+ 
   useEffect(() => {
-   
-     function handleStorageChange() {
-      if(localStorage.getItem('isLoggedIn')==='true'){         
-       setIsLogged(true);
-       }else{
+    const user = JSON.parse(localStorage.getItem('customer'));
+    console.log(user)
+    function handleStorageChange() {
+      if (localStorage.getItem('isLoggedIn') === 'true' ) {         
+        setIsLogged(true);
+      } else {
         setIsLogged(false)
-       }
       }
-  //   }
-  //   function handleStorageChangeNewValue(event) {
-  //     if(event.key==='isLoggedIn'){
-  //     setIsLoggedIn(localStorage.getItem('isLoggedIn')|| null);
-  //      }
-
-  //   }
+    }
+    
 
     window.addEventListener('storage', handleStorageChange);
     return () => {
-          window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('storage', handleStorageChange);
     }
 
-  }, []);
+  }, [isLogged,user]);
  
-
-  // function handleStorageChange(event) {
-  //   if (event.key === 'isLoggedIn') {
-  //     console.log(event.key)
-  //     setIsLoggedIn(localStorage.getItem('isLoggedIn') || null);
-  //   }
-  // }
-  console.log(window.isLoggedIn)
-
 
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
@@ -136,27 +71,14 @@ const Header = (user) => {
 
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                {/* {isLoggedIn
-                   ?(
-                <Link to="/userprofile" className="d-flex align-items-center gap-1">
-                  <i class="ri-user-line"></i> valami
+               
+                <Link to={isLogged ? "/userprofile" : "/login"} className="d-flex align-items-center gap-1">
+                  {isLogged ? <i class="ri-user-line"></i> : <i class="ri-login-circle-line"></i>} {isLogged ? user.firstName : "Login"}
                 </Link>
-                )
-                : (
-                <Link to="/login" className=" d-flex align-items-center gap-1">
-                  <i class="ri-login-circle-line"></i> Login
-                </Link >
-                )}    */}
-                <Link to={isLogged ? "/userprofile": "/login"} className="d-flex align-items-center gap-1">
-                  {isLogged ? <i class="ri-user-line"></i> : <i class="ri-login-circle-line"></i>} {isLogged ? "valami" : "Login"}
-                </Link>
-                {/* <Link to={isLoggedOut ? "/login":"/userprofile"} className="d-flex align-items-center gap-1">
-                  {isLoggedOut ?  <i class="ri-login-circle-line"></i> : <i class="ri-user-line"></i>} {isLoggedOut ?  "Login" :"valami"}
-                </Link> */}
 
 
-                <Link to= "/registration"  className={!isLogged ? "d-flex align-items-center gap-1" :"registration-link"}>
-                  {!isLogged? <i class="ri-user-line"></i> && "Register" : <i className="registration-link"></i>}
+                <Link to="/registration" className={!isLogged ? "d-flex align-items-center gap-1" : "registration-link"}>
+                  {!isLogged ? <i class="ri-user-line"></i> && "Register" : <i className="registration-link"></i>}
                 </Link>
               </div>
             </Col>
@@ -204,7 +126,6 @@ const Header = (user) => {
                 </div>
               </div>
             </Col>
-
 
           </Row>
         </Container>

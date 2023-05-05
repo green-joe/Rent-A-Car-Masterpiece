@@ -7,38 +7,35 @@ import Popup from '../../services/Popup';
 
 
 
-const BookingForm = () => { 
+const BookingForm = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [textArea, setTextArea] = useState('')
   const storedData = localStorage.getItem('rentInfo');
-  const [rentInfo, setRentInfo] = useState(JSON.parse(storedData) || {})
-  const [toTimeHours, toTimeMinutes] = rentInfo.toTime.split(':');
-  const [fromTimeHours, fromTimeMinutes] = rentInfo.fromTime.split(':');
+  const [rentInfo, setRentInfo] = useState(JSON.parse(storedData) || null)
+  const [toTimeHours, toTimeMinutes] = rentInfo != null ? rentInfo.toTime.split(':') : "";
+  const [fromTimeHours, fromTimeMinutes] = rentInfo != null ? rentInfo.fromTime.split(':') : "";
   const toTimeWithSeconds = toTimeHours + ":" + toTimeMinutes + ":00";
   const fromTimeWithSeconds = fromTimeHours + ":" + fromTimeMinutes + ":00";
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get('id');
   const [popupErrorMessage, setPopupErrorMessage] = useState('')
+  const [popUpMessage, setPopUpMessage] = useState("")
   const [showPopup, setShowPopup] = useState(false);
 
-  const handlePopup = (message) => {
-    setPopupErrorMessage(message);
-    setShowPopup(true);
-  };
 
   const handleClosePopup = () => {
     setShowPopup(false);
   };
 
-  
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if(name==='textArea'){         
-    setTextArea(e.target.value);
+    if (name === 'textArea') {
+      setTextArea(e.target.value);
     }
-    setRentInfo((prevRentInfo) => ({      
+    setRentInfo((prevRentInfo) => ({
       ...prevRentInfo,
       [name]: value,
     }));
@@ -53,36 +50,38 @@ const BookingForm = () => {
   }
 
 
-  console.log(rentInfo.fromDate, rentInfo.toDate, textArea, toTimeWithSeconds, fromTimeWithSeconds)
-  const renter = (localStorage.getItem('customer'))
-  
-  const handleSubmit = async (event) => { 
-    event.preventDefault();      
-   
+  //console.log(rentInfo.fromDate, rentInfo.toDate, textArea, toTimeWithSeconds, fromTimeWithSeconds)
+  const renter = JSON.parse(localStorage.getItem('customer'))
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     if (isLoggedIn) {
       const { fromDate, toDate, fromTime, toTime, fromAddress, toAddress, textArea } = rentInfo;
 
-      // Validate the input values
       if (!fromDate || !toDate || !fromTime || !toTime || !fromAddress || !toAddress) {
         setPopupErrorMessage("Please fill all required fields");
         setShowPopup(true)
         return;
       }
-  
-      if (textArea && textArea.length > 255){
-        setPopupErrorMessage("The text area field is too long (maximum 255characters)");        
+
+      if (textArea && textArea.length > 255) {
+        setPopupErrorMessage("The text area field is too long (maximum 255characters)");
         setShowPopup(true)
-        
-      }else if(fromAddress && fromAddress.length>100 || toAddress&&toAddress.length>100) {        
-        setPopupErrorMessage("The text area field is too long (maximum 100 characters)");        
+
+      } else if (fromAddress && fromAddress.length > 100 || toAddress && toAddress.length > 100) {
+        setPopupErrorMessage("The text area field is too long (maximum 100 characters)");
         setShowPopup(true)
-        
+
       }
+
 
       let res = await fetch("http://localhost:8080/booking/save", {
         method: "POST",
-        headers:{'Content-Type': 'application/json',
-       },
+        headers: {
+          'Content-Type': 'application/json',
+        },
 
         body: JSON.stringify({
           customer: {
@@ -104,61 +103,67 @@ const BookingForm = () => {
 
       console.log(rentInfo.fromDate, rentInfo.toDate, textArea, toTimeWithSeconds, fromTime, rentInfo.fromAddress)
       if (res.status === 200) {
-        console.log("its ok")       
+        console.log("its ok")
+        setPopUpMessage("The booking is successful")
+        setShowPopup(true)
+        setTextArea('')
+
+
+
       } else {
-        // setPopupMessage('error')
+
         res.text().then(errorMessage => {
           console.log(errorMessage)
-          // setPopupErrorMessage(errorMessage)
+
         })
       }
     }
   };
 
-   
-   const customer=JSON.parse(localStorage.getItem('customer'))
-   console.log(customer.lastName)
-  
+
+  const customer = JSON.parse(localStorage.getItem('customer'))
+
+
   useEffect(() => {
-    const customer=JSON.parse(localStorage.getItem('customer'))
-   console.log(customer.lastName)
-    //const token = sessionStorage.getItem('customer');
-     if (customer != null) {
-       setIsLoggedIn(true);
-     } else {
-       setIsLoggedIn(false);
-     }
+    const customer = JSON.parse(localStorage.getItem('customer'))
+
+    if (customer != null) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+
+    }
   }, []);
   console.log(isLoggedIn)
   return (
     <Form onSubmit={handleSubmit}>
 
       <FormGroup className='booking__form d-inline-block me-4 mb-4'>
-        <input type="text" name="firstName" placeholder='First name' value={customer.firstName} />
+        <input type="text" name="firstName" placeholder='First name' value={customer == null ? "" : customer.firstName} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="text" name="lastName" placeholder="Last Name" value={customer.lastName} />
+        <input type="text" name="lastName" placeholder="Last Name" value={customer == null ? "" : customer.lastName} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="email" name="email" placeholder="Email" value={customer.email} />
+        <input type="email" name="email" placeholder="Email" value={customer == null ? "" : customer.email} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="number" name="phoneNumber" placeholder="Phone Number" disabled value={customer.phoneNumber}  />
+        <input type="number" name="phoneNumber" placeholder="Phone Number" disabled value={customer == null ? "" : customer.phoneNumber} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input type="text" name="fromAddress" placeholder="From Address" value={rentInfo.fromAddress} minLength={1} maxLength={100} onChange={handleInputChange} />
+        <input type="text" name="fromAddress" placeholder="From Address" value={rentInfo == null ? "" : rentInfo.fromAddress} minLength={1} maxLength={100} onChange={handleInputChange} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
-        <input type="text" name="toAddress" placeholder="To Address" value={rentInfo.toAddress} onChange={handleInputChange} />
+        <input type="text" name="toAddress" placeholder="To Address" value={rentInfo == null ? "" : rentInfo.toAddress} onChange={handleInputChange} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input className="time__picker" name="fromDate" placeholder="Journey Time" type="date" value={rentInfo.fromDate} onChange={handleInputChange} />
+        <input className="time__picker" name="fromDate" placeholder="Journey Time" type="date" value={rentInfo == null ? "" : rentInfo.fromDate} onChange={handleInputChange} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
@@ -167,13 +172,13 @@ const BookingForm = () => {
           name='fromTime'
           placeholder="Journey Time"
           className="time__picker"
-          value={rentInfo.fromTime}
+          value={rentInfo == null ?"":rentInfo.fromTime}
           onChange={handleInputChange}
         />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block me-4 mb-4">
-        <input className="time__picker" name="toDate" placeholder="Journey Time" type="date" value={rentInfo.toDate} onChange={handleInputChange} />
+        <input className="time__picker" name="toDate" placeholder="Journey Time" type="date" value={rentInfo == null ? "" : rentInfo.toDate} onChange={handleInputChange} />
       </FormGroup>
 
       <FormGroup className="booking__form d-inline-block ms-1 mb-4">
@@ -182,7 +187,7 @@ const BookingForm = () => {
           name='toTime'
           placeholder="Journey Time"
           className="time__picker"
-          value={rentInfo.toTime}
+          value={rentInfo==null?"":rentInfo.toTime}
           onChange={handleInputChange}
         />
       </FormGroup>
@@ -202,6 +207,10 @@ const BookingForm = () => {
         <Button variant="primary" type="submit" >Booking</Button>
         {popupErrorMessage !== '' && (
           showPopup && <Popup message={popupErrorMessage}
+            onClose={handleClosePopup} />
+        )}
+        {popUpMessage !== '' && (
+          showPopup && <Popup message={popUpMessage}
             onClose={handleClosePopup} />
         )}
       </div>
