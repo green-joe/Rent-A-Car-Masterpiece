@@ -43,11 +43,9 @@ public class CustomerController {
 
     @PostMapping("/auth/register")
     public ResponseEntity<?> registerCustomer(@RequestBody Customer customer) {
-        // add check for customerrname exists in a DB
         if (customerRepository.existsByFirstNameAndLastName(customer.getFirstName(), customer.getLastName())) {
             return new ResponseEntity<>("Customername is already taken!", HttpStatus.BAD_REQUEST);
         }
-        // add check for email exists in DB
         if (customerRepository.existsByEmail(customer.getEmail())) {
             return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
         }
@@ -56,7 +54,6 @@ public class CustomerController {
         } catch (InvalidPasswordException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        // create customer object
         Customer newCustomer = new Customer();
         newCustomer.setFirstName(customer.getFirstName());
         newCustomer.setLastName(customer.getLastName());
@@ -70,8 +67,8 @@ public class CustomerController {
     @PostMapping("/auth/login")
     public ResponseEntity<String> authenticateUser(@RequestBody Customer customer) {
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    customer.getEmail(), customer.getPassword()));
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(customer.getEmail(), customer.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String message = "User signed-in successfully!";
             return new ResponseEntity<>(message, HttpStatus.OK);

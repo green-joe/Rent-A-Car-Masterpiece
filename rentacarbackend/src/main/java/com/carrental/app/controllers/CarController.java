@@ -4,7 +4,6 @@ import com.carrental.app.models.Car;
 import com.carrental.app.models.images.ImageData;
 import com.carrental.app.models.images.ImageUploadResponse;
 import com.carrental.app.repositories.CarRepository;
-import com.carrental.app.repositories.ImageDataRepository;
 import com.carrental.app.services.CarService;
 import com.carrental.app.services.ImageDataService;
 import lombok.RequiredArgsConstructor;
@@ -45,10 +44,10 @@ public class CarController {
 
     @PostMapping("/{id}/images")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file, @PathVariable("id") Long id) throws IOException {
-        Car car=carRepository.findById(id).orElseThrow();
+        Car car = carRepository.findById(id).orElseThrow();
         ImageUploadResponse response = imageDataService.uploadImage(file);
-        List<ImageData> imageDataList=new ArrayList<>();
-        imageDataList=car.getCarImages();
+        List<ImageData> imageDataList = new ArrayList<>();
+        imageDataList = car.getCarImages();
         imageDataList.add(response.getImageData());
         car.setCarImages(imageDataList);
         carRepository.save(car);
@@ -63,15 +62,15 @@ public class CarController {
     }
 
     @PutMapping("/edit/{id}")
-    public Car editCarData(@RequestBody Car car, @PathVariable("id") Long id){
-        Car updateCar=carRepository.findById(id).orElseThrow();
-        carService.setCarDetails(car,updateCar);
+    public Car editCarData(@RequestBody Car car, @PathVariable("id") Long id) {
+        Car updateCar = carRepository.findById(id).orElseThrow();
+        carService.setCarDetails(car, updateCar);
         return carRepository.save(updateCar);
     }
+
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable("id")Long id){
+    public void deleteById(@PathVariable("id") Long id) {
         carRepository.deleteById(id);
     }
-
 
 }

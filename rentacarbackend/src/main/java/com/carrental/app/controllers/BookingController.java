@@ -54,7 +54,6 @@ public class BookingController {
         booking.setPickupDate(bookingData.getPickupDate());
         booking.setReturnDate(bookingData.getReturnDate());
         booking.setCarImage(bookingData.getCarImage());
-
         return bookingRepository.save(booking);
     }
 
@@ -62,11 +61,8 @@ public class BookingController {
     public ResponseEntity<?> deleteBooking(@PathVariable Long id) throws InstanceNotFoundException {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new InstanceNotFoundException("Booking not found"));
-
         bookingRepository.delete(booking);
-
         return ResponseEntity.ok().build();
     }
-
 
 }
