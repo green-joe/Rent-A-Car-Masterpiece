@@ -65,9 +65,6 @@ public class ImageDataService {
     public List<String> getImageDataName(){
         List<String> allImageDataName=new ArrayList<>();
         List<ImageData> allImages=getAllImages();
-        /*for(ImageData items:allImages){
-            allImageDataName.add(items.getName());
-        }*/
         allImageDataName=allImages.stream().map(ImageData::getName).collect(Collectors.toList());
         System.out.println(allImageDataName+"kk");
         return allImageDataName;

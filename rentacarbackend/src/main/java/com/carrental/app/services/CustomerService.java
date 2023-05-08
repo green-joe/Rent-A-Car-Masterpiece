@@ -70,11 +70,6 @@ public class CustomerService implements UserDetailsService {
         return true;
     }
 
-
-   /* public boolean validatePassword(String email, String password) {
-        UserDetails customer= loadUserByUsername(email);
-        return passwordEncoder.matches(password, customer.getPassword());
-    }*/
 }
 
 

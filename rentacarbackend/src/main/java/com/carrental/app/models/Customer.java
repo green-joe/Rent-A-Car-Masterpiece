@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Table(name = "customers", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"email"})
 })
-//@Table(name = "customers")
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @RequiredArgsConstructor

@@ -59,7 +59,6 @@ public class Car implements Serializable {
 
    public void setCarImages(List<ImageData> carImages) {
         this.carImages = carImages;
-        //carImages.forEach(entity->entity.setCar(this));
     }
 
 }

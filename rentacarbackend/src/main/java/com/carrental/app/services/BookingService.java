@@ -18,7 +18,6 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
      public Time convertStringToTime(String time) {
-         //String[] partOfTime = time.split(":");
          return Time.valueOf(time);
      }
 
