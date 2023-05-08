@@ -28,8 +28,6 @@ const BookingForm = () => {
     setShowPopup(false);
   };
 
-
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'textArea') {
@@ -49,10 +47,7 @@ const BookingForm = () => {
 
   }
 
-
-  //console.log(rentInfo.fromDate, rentInfo.toDate, textArea, toTimeWithSeconds, fromTimeWithSeconds)
   const renter = JSON.parse(localStorage.getItem('customer'))
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -123,7 +118,6 @@ const BookingForm = () => {
 
   const customer = JSON.parse(localStorage.getItem('customer'))
 
-
   useEffect(() => {
     const customer = JSON.parse(localStorage.getItem('customer'))
 
@@ -172,7 +166,7 @@ const BookingForm = () => {
           name='fromTime'
           placeholder="Journey Time"
           className="time__picker"
-          value={rentInfo == null ?"":rentInfo.fromTime}
+          value={rentInfo == null ? "" : rentInfo.fromTime}
           onChange={handleInputChange}
         />
       </FormGroup>
@@ -187,7 +181,7 @@ const BookingForm = () => {
           name='toTime'
           placeholder="Journey Time"
           className="time__picker"
-          value={rentInfo==null?"":rentInfo.toTime}
+          value={rentInfo == null ? "" : rentInfo.toTime}
           onChange={handleInputChange}
         />
       </FormGroup>

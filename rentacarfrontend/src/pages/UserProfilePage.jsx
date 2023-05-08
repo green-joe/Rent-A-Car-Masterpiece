@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Breadcrumb, BreadcrumbItem, Button } from 'r
 import { CardBody, CardImg, ListGroup, ListGroupItem, CardText } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { getIsLogged } from '../services/IsLogged';
+import BookingTable from '../services/BookingTable';
 
 
 
@@ -12,47 +13,35 @@ import { getIsLogged } from '../services/IsLogged';
 const UserProfilePage = () => {
   const redirect = useNavigate();
   const location = useLocation();
-  const email = location.state  
+  const email = location.state
   const [customer, setCustomer] = useState({})
 
 
 
-  
 
   fetch(`http://localhost:8080/customer/get/byEmail?email=${email}`, {
   }).then(response => response.json())
-    .then(data => setCustomer({id:data.id,
-      email:data.email,
-      firstName:data.firstName,
-      lastName:data.lastName,
-      phoneNumber:data.phoneNumber,
-      address:data.address }))
+    .then(data => setCustomer({
+      id: data.id,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phoneNumber: data.phoneNumber,
+      address: data.address
+    }))
     .catch(error => console.error(error + "err"));
-    
-    
-  
-  localStorage.setItem('customer',JSON.stringify(customer))
- 
 
-
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    //setUserProfile({ ...userProfile, [name]: value });
-  }
+  localStorage.setItem('customer', JSON.stringify(customer))
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-
     getIsLogged().then(response => {
       if (response.ok) {
         console.log("Logged out successfully");
         localStorage.removeItem('isLoggedIn')
         localStorage.removeItem('customer')
-        
-        redirect("/home");
         window.dispatchEvent(new Event('storage'))
-
+        redirect("/home");
 
       } else {
         console.log("Failed to log out");
@@ -64,12 +53,9 @@ const UserProfilePage = () => {
 
 
   }
-  useEffect(() => {  
-  
-
-    window.dispatchEvent(new Event('storage'))
+  useEffect(() => {
+   window.dispatchEvent(new Event('storage'))
   }, []);
-
 
 
   return (
@@ -90,7 +76,7 @@ const UserProfilePage = () => {
         </Row>
         <Row>
           <Col lg="4">
-            <Card className="mb-4 " style={{height:'100%'}}>
+            <Card className="mb-4 " style={{ height: '100%' }}>
               <CardBody className="text-center">
                 <CardImg
                   src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
@@ -98,24 +84,18 @@ const UserProfilePage = () => {
                   className="rounded-circle"
                   style={{ width: '150px' }}
                   fluid />
-
-                <p className="text-muted mb-4">{customer.firstName}</p>
-                {/* <div className="d-flex justify-content-center mb-2">                  
-                  <Button outline className="ms-1">Message</Button>
-                </div> */}
+                <p className="text-muted mb-4">{customer.firstName}</p>              
               </CardBody>
             </Card>
-            </Col>
-            <Col lg="3">
-            <Card className="mb-4 mb-lg-0" style={{height:'100%'}}>
+          </Col>
+          <Col lg="3">
+            <Card className="mb-4 mb-lg-0" style={{ height: '100%' }}>
               <CardBody className="p-0">
                 <ListGroup flush className="rounded-3">
                   <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
                     <i className="ri-global-line" style={{ color: "#f9a826", fontSize: "24px" }}></i>
-
                     <CardText>https://exmple.com</CardText>
                   </ListGroupItem>
-
                   <ListGroupItem className="d-flex justify-content-between align-items-center p-3">
                     <i className="ri-twitter-line" style={{ color: '#55acee', fontSize: "24px" }} />
                     <CardText>Twitter account</CardText>
@@ -133,7 +113,7 @@ const UserProfilePage = () => {
             </Card>
           </Col>
           <Col lg="5">
-            <Card className="mb-4" style={{height:'100%'}}>
+            <Card className="mb-4" style={{ height: '100%' }}>
               <CardBody>
                 <Row>
                   <Col sm="3">
@@ -162,7 +142,6 @@ const UserProfilePage = () => {
                   </Col>
                 </Row>
                 <hr />
-                
                 <Row>
                   <Col sm="3">
                     <CardText>Address</CardText>
@@ -173,17 +152,11 @@ const UserProfilePage = () => {
                 </Row>
               </CardBody>
             </Card>
-            </Col>
-            <Col>
-            <div className="d-grid" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', margin:'10%'}}>
+          </Col>
+          <BookingTable />
+          <Col>
+            <div className="d-grid" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '10%' }}>
               <Button variant="primary" type="submit" onClick={handleSubmit}>Logout</Button>
-
-              {/* { localStorage.setItem('isLoggedIn',false)} */}
-
-
-              {/* {popupMessage === 'error' && (
-                        showPopup && <Popup message={popupErrorMessage} onClose={handleClosePopup} />
-                      )} */}
             </div>
           </Col>
         </Row>
@@ -193,3 +166,4 @@ const UserProfilePage = () => {
 };
 
 export default UserProfilePage;
+
