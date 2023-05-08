@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class ImageUploadResponse {
+
     private String message;
     private ImageData imageData;
     
