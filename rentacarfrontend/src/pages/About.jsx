@@ -56,8 +56,7 @@ const About = () => {
           </Col>
         </Row>
       </Container>
-    </section>   
-  
+    </section>    
   </Helmet>
 );
 };

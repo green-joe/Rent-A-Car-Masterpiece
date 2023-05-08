@@ -1,0 +1,30 @@
+.booking-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    
+    
+  }
+  
+  .booking-table th,
+  .booking-table td,
+  .booking-table tr {
+    border: 2px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .booking-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .booking-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .booking-table tbody tr:hover {
+    background-color: #e7d0d0;
+  }
+  

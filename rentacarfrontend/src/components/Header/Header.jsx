@@ -5,6 +5,7 @@ import "../../styles/header.css"
 
 
 
+
 const navLinks = [
   {
     path: "/home",
@@ -25,23 +26,20 @@ const navLinks = [
 ];
 
 const Header = () => {
-  const menuRef = useRef(null);  
-
-  const user=(JSON.parse(localStorage.getItem('customer')))
-  
-  const [isLogged, setIsLogged] = useState(false); 
- 
+  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+  const menuRef = useRef(null);
+  const user = JSON.parse(localStorage.getItem('customer'))
+  const [isLogged, setIsLogged] = useState(false);
+ console.log(user!==null ? user.id : "")
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('customer'));
-    console.log(user)
+    
     function handleStorageChange() {
-      if (localStorage.getItem('isLoggedIn') === 'true' ) {         
+      if (localStorage.getItem('isLoggedIn') === 'true') {
         setIsLogged(true);
       } else {
         setIsLogged(false)
       }
     }
-    
 
     window.addEventListener('storage', handleStorageChange);
     return () => {
@@ -49,9 +47,7 @@ const Header = () => {
     }
 
   }, [isLogged,user]);
- 
 
-  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
 
   return (
@@ -68,15 +64,11 @@ const Header = () => {
                 </span>
               </div>
             </Col>
-
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-               
                 <Link to={isLogged ? "/userprofile" : "/login"} className="d-flex align-items-center gap-1">
-                  {isLogged ? <i class="ri-user-line"></i> : <i class="ri-login-circle-line"></i>} {isLogged ? user.firstName : "Login"}
+                  {isLogged ? <i class="ri-user-line"></i> : <i class="ri-login-circle-line"></i>} {isLogged ? `${user.firstName}` : "Login"}
                 </Link>
-
-
                 <Link to="/registration" className={!isLogged ? "d-flex align-items-center gap-1" : "registration-link"}>
                   {!isLogged ? <i class="ri-user-line"></i> && "Register" : <i className="registration-link"></i>}
                 </Link>
@@ -126,7 +118,6 @@ const Header = () => {
                 </div>
               </div>
             </Col>
-
           </Row>
         </Container>
       </div>

@@ -25,8 +25,7 @@ const RegistrationPage = () => {
   const validatePassword = () => {
     if ((password === confirmPassword) && (password !== '' && confirmPassword !== '')) {
       setPassword(password)
-     // setPopupMessage('success')    
-    
+         
     }else if(password==='' || confirmPassword===""){
       setPopupErrorMessage("Input fields cannot be empty!")
     }
@@ -55,7 +54,7 @@ const RegistrationPage = () => {
       },
       
       body: JSON.stringify({        
-        firsrName: firstName,
+        firstName: firstName,
         lastName: lastName,
         email: email,
         password: password,                        
@@ -77,7 +76,6 @@ const RegistrationPage = () => {
         setPopupErrorMessage(errorMessage)
       })
     }
-
 
   };
    useEffect(() => { 

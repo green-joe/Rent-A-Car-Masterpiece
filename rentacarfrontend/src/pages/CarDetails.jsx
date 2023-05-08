@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import carData from "../assets/data/carData";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom";
@@ -7,8 +6,7 @@ import BookingForm from "../components/UI/BookingForm";
 import { getAllCars } from "../services/GetCarsData";
 
 const CarDetails = () => {
-  const { slug } = useParams();  
-  const [cars, setCars] = useState()
+  const { slug } = useParams();    
   const [singleCarItem, setSingleCarItem] = useState({})
   let oneCar = {}
   useEffect(() => {
@@ -103,14 +101,12 @@ const CarDetails = () => {
                 </div>
               </div>
             </Col>
-
             <Col lg="12" className="mt-5">
               <div className="booking-info mt-5">
                 <h5 className="mb-4 fw-bold ">Booking Information</h5>
                 <BookingForm />
               </div>
-            </Col>
-            
+            </Col>            
           </Row>
         </Container>
       </section>

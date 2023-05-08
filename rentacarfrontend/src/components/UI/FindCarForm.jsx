@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../styles/find-car-form.css";
 import { Container, Form, FormGroup, Row, Col } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+
 
 const FindCarForm = () => {
   const navigate = useNavigate();
@@ -74,8 +74,6 @@ const FindCarForm = () => {
                 name="toTime"
               />
             </FormGroup>          
-
-
             <FormGroup className="form__group w-100" >
               <button className="btn find__car-btn" onClick={() => navigate("/cars")}>Find Car</button>
             </FormGroup>

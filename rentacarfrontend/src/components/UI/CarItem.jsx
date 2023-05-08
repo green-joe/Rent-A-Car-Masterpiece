@@ -70,7 +70,6 @@ const CarItem = (props) => {
         ))
         }
       </Row>       
-     
   );
 };
 
